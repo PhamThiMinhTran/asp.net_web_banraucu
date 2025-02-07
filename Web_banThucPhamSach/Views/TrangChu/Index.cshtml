@@ -1,0 +1,396 @@
+﻿@using Web_banThucPhamSach.Data
+@model List<Web_banThucPhamSach.Data.Product>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_TrangChu.cshtml";
+}
+
+<section id="search-banner">
+    <img src="~/images/bg-1.png" class="bg-1" alt="bg">
+    <img src="~/images/bg-2.png" class="bg-2" alt="bg-2">
+    <img src="~/images/nhung-mon-an-ngon-de-lam.png" class="bg-3" alt="bg-3">
+
+    <div class="search-banner-text">
+        <h1>Đặt hàng ngay</h1>
+        <strong>Sản phẩm tươi sạch hàng đầu Việt Nam</strong>
+
+        <form method="get" asp-controller="TrangChu" asp-action="Index" class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" class="search-input" placeholder="Tìm kiếm sản phẩm" name="search" required>
+            <input type="submit" class="search-btn" value="Search" name="" id="">
+        </form>
+    </div>
+</section>
+<section id="category">
+    <div class="category-heading">
+        <h2>Category</h2>
+        <span>All</span>
+    </div>
+
+    <!-- box-container -->
+    <div class="category-container">
+        <a asp-controller="TrangChu" asp-action="Category" asp-route-category="Cá và thịt" class="category-box">
+            <img src="~/images/fish.png" alt="Fish">
+            <span>Cá và thịt</span>
+        </a>
+
+        <a asp-controller="TrangChu" asp-action="Category" asp-route-category="Rau củ" class="category-box">
+            <img src="~/images/Vegetables.png" alt="Vegatables">
+            <span>Rau củ</span>
+        </a>
+
+        <a asp-controller="TrangChu" asp-action="Category" asp-route-category="Trái cây" class="category-box">
+            <img src="~/images/TraiCay.png" alt="fruit">
+            <span>Trái cây</span>
+        </a>
+
+        <a asp-controller="TrangChu" asp-action="Category" asp-route-category="Sữa" class="category-box">
+            <img src="~/images/milk.png" alt="Milk">
+            <span>Sữa</span>
+        </a>
+
+        <a asp-controller="TrangChu" asp-action="Category" asp-route-category="Hạt giống" class="category-box">
+            <img src="~/images/Gardening.png" alt="Gardening">
+            <span>Hạt giống</span>
+        </a>
+
+        <a asp-controller="TrangChu" asp-action="Category" asp-route-category="Cá và thịt" class="category-box ">
+            <img src="~/images/cooking.png" alt="Cooking">
+            <span>Nấu ăn</span>
+        </a>
+
+        <a asp-controller="TrangChu" asp-action="Category" asp-route-category="Beauty" class="category-box @(ViewBag.CurrentCategory == "Làm đẹp" ? "active" : "")">
+            <img src="~/images/beauty.png" alt="Beauty">
+            <span>Làm đẹp</span>
+        </a>
+    </div>
+</section>
+<!-- Category end -->
+<section id="popular-product">
+    <div class="product-headding">
+        <h3>Popular Product</h3>
+        <span>All</span>
+    </div>
+
+    <div class="product-container">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var sp in Model)
+            {
+                <div class="product-box">
+                    <a asp-controller="Function" asp-action="TT_Product" asp-route-id="@sp.Id">
+                        @if (!string.IsNullOrEmpty(sp.Image))
+                        {
+                            var imagePaths = sp.Image.Split(',');
+                            <img src="@Url.Content(imagePaths[0])" alt="@sp.Title" />
+                        }
+                        <strong>@sp.Title</strong>
+                    </a>
+                    <span class="quantity">@sp.Number KG</span>
+                    <span class="price">@sp.Price</span>
+                    <a asp-controller="Function" asp-action="AddToCart" asp-route-productid="@sp.Id" class="cart-btn">
+                        <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+                    </a>
+                    <a href="" class="like-btn"><i class="fa-regular fa-heart"></i></a>
+                </div>
+            }
+        }
+        else
+        {
+            <p>Không tìm thấy sản phẩm nào phù hợp với từ khóa "<strong>@ViewBag.SearchQuery</strong>".</p>
+        }
+        @*
+        <div class="product-box">
+        <img src="~/images/chili.png" alt="Ớt">
+        <strong>Ớt cay</strong>
+        <span class="quantity">1 KG</span>
+        <span class="price">2000đ</span>
+
+        <a href="" class="cart-btn">
+        <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+        </a>
+
+        <a href="" class="like-btn"><i class="fa-regular fa-heart"></i></a>
+        </div>
+
+        <div class="product-box">
+        <img src="~/images/onion.png" alt="Tỏi">
+        <strong>Tỏi</strong>
+        <span class="quantity">1 KG</span>
+        <span class="price">3000đ</span>
+
+        <a href="" class="cart-btn">
+        <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+        </a>
+
+        <a href="" class="like-btn"><i class="fa-regular fa-heart"></i></a>
+        </div>
+
+        <div class="product-box">
+        <img src="~/images/patato.png" alt="Khoai tây">
+        <strong>Khoai tây</strong>
+        <span class="quantity">1 KG</span>
+        <span class="price">10000đ</span>
+
+        <a href="" class="cart-btn">
+        <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+        </a>
+
+        <a href="" class="like-btn"><i class="fa-regular fa-heart"></i></a>
+        </div>
+
+        <div class="product-box">
+        <img src="~/images/tamato.png" alt="Cà chua">
+        <strong>Cà chua</strong>
+        <span class="quantity">1 KG</span>
+        <span class="price">5000đ</span>
+
+        <a href="" class="cart-btn">
+        <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+        </a>
+
+        <a href="" class="like-btn"><i class="fa-regular fa-heart"></i></a>
+        </div>
+
+        <div class="product-box">
+        <img src="~/images/garlic.png" alt="Tỏi tép">
+        <strong>Tỏi tép</strong>
+        <span class="quantity">1 KG</span>
+        <span class="price">7000đ</span>
+
+        <a href="" class="cart-btn">
+        <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+        </a>
+
+        <a href="" class="like-btn"><i class="fa-regular fa-heart"></i></a>
+        </div> *@
+    </div>
+    <div class="all_product"><a asp-area="" asp-controller="TrangChu" asp-action="CategoryList" class="all_product_link">Xem thêm</a></div>
+</section>
+<!-- popular-product-end -->
+<section id="popular-bundle-park">
+    <div class="product-headding">
+        <h3>Popular Bundle Park</h3>
+    </div>
+
+    <div class="product-container">
+        <div class="product-box">
+            <img src="~/images/pack1.png" alt="Park">
+            <strong>Túi trái cây lớn</strong>
+            <span class="quantity">Táo, chuối, khoai, +4</span>
+            <span class="price">120000đ</span>
+
+            <a href="" class="cart-btn">
+                <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+            </a>
+
+            <a href="" class="like-btn"><i class="fa-regular fa-heart"></i></a>
+        </div>
+
+        <div class="product-box">
+            <img src="~/images/pack2.jpg" alt="Park">
+            <strong>Túi trái cây khủng</strong>
+            <span class="quantity">Táo, chanh, tỏi, xà +10</span>
+            <span class="price">200000đ</span>
+
+            <a href="" class="cart-btn">
+                <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+            </a>
+
+            <a href="" class="like-btn"><i class="fa-regular fa-heart"></i></a>
+        </div>
+
+        <div class="product-box">
+            <img src="~/images/pack3.png" alt="Park">
+            <strong>Hộp trái cây</strong>
+            <span class="quantity">Nho. cà chua, táo +5</span>
+            <span class="price">250000đ</span>
+
+            <a href="" class="cart-btn">
+                <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+            </a>
+
+            <a href="" class="like-btn"><i class="fa-regular fa-heart"></i></a>
+        </div>
+
+        <div class="product-box">
+            <img src="~/images/GoiTang1.png" alt="Park">
+            <strong>Gói tặng hộp trái cây</strong>
+            <span class="quantity">Táo, chuối, khoai, +4</span>
+            <span class="price">120000đ</span>
+
+            <a href="" class="cart-btn">
+                <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+            </a>
+
+            <a href="" class="like-btn"><i class="fa-regular fa-heart"></i></a>
+        </div>
+
+        <div class="product-box">
+            <img src="~/images/GoiTang.png" alt="Park">
+            <strong>Túi trái cây tặng khủng</strong>
+            <span class="quantity">Táo, chanh, tỏi, xà +10</span>
+            <span class="price">200000đ</span>
+
+            <a href="" class="cart-btn">
+                <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+            </a>
+
+            <a href="" class="like-btn"><i class="fa-regular fa-heart"></i></a>
+        </div>
+
+        <div class="product-box">
+            <img src="~/images/GoiTang3.png" alt="Park">
+            <strong>Giỏ trái cây tặng khổng lồ</strong>
+            <span class="quantity">Nho. cà chua, táo +5</span>
+            <span class="price">250000đ</span>
+
+            <a href="" class="cart-btn">
+                <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+            </a>
+
+            <a href="" class="like-btn"><i class="fa-regular fa-heart"></i></a>
+        </div>
+    </div>
+</section>
+
+<!-- ---popular-bundle-park-end--- -->
+<section id="clients">
+    <div class="client-heading">
+        <h3>Đánh giá từ khách hàng</h3>
+    </div>
+
+    <div class="client-box-container">
+        <div class="client-box">
+
+            <div class="client-profile">
+                <img src="~/images/client-1.jpg" alt="client">
+                <div class="profile-text">
+                    <strong>MinhTran1</strong>
+                    <span>CEO</span>
+                </div>
+            </div>
+
+            <!-- Rating -->
+            <div class="rating">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+            </div>
+
+            <!-- comment -->
+            <p>
+                Sản phẩm tươi ngon, giao hàng nhanh cũng như dịch vụ tốt. Tôi rất ưng ý với những gì đã trãi
+                nghiệm
+                tại cửa hàng
+            </p>
+        </div>
+
+        <div class="client-box">
+
+            <div class="client-profile">
+                <img src="~/images/client-2.jpg" alt="client">
+                <div class="profile-text">
+                    <strong>MinhTran2</strong>
+                    <span>CEO</span>
+                </div>
+            </div>
+
+            <!-- Rating -->
+            <div class="rating">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+            </div>
+            <!-- comment -->
+            <p>
+                Trái cây ngọt cũng như tươi, sản phẩm được bao bộc cẩn thận, giỏ trái cây đủ các trái cây và
+                không có
+                hiện tượng nhồi giấy cho đầy giỏ
+            </p>
+        </div>
+
+        <div class="client-box">
+
+            <div class="client-profile">
+                <img src="~/images/client-3.jpg" alt="client">
+                <div class="profile-text">
+                    <strong>MinhTran3</strong>
+                    <span>CEO</span>
+                </div>
+            </div>
+
+            <!-- Rating -->
+            <div class="rating">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+            </div>
+            <!-- comment -->
+            <p>Yêu shop, dịch vụ và trả lời thắc mắc rất rõ ràng. Sản phẩm tươi ngon, giống hình.</p>
+        </div>
+    </div>
+
+</section>
+
+<!-- client-section-end -->
+<!-- logo -->
+<section id="partner">
+    <div class="partner-heading">
+        <h3>Nguồn hàng tin cậy</h3>
+    </div>
+
+    <!-- logo-container -->
+    <div class="logo-container">
+        <img src="~/images/logo-1.png" alt="logo">
+        <img src="~/images/logo-2.png" alt="logo">
+        <img src="~/images/logo-3.png" alt="logo">
+        <img src="~/images/logo-4.png" alt="logo">
+    </div>
+</section>
+
+<section id="download-app">
+    <div class="app-img">
+        <img src="~/images/mobile-app.png" alt="app">
+    </div>
+
+    <div class="download-app-text">
+        <strong>Download App</strong>
+        <p>
+            Tải app MinhTran mua hàng đơn giản, đem lại niềm vui và sức khỏe khi dễ dàng thực hiện mua những sản phẩm
+            tươi sạch nhất tại Việt Nam
+        </p>
+
+        <div class="download-btns">
+            <a href=""><img src="~/images/appstore-btn.png" alt=""></a>
+            <a href=""><img src="~/images/googleplay-btn.png" alt=""></a>
+        </div>
+    </div>
+
+</section>
+<script>
+    function addToCart(productId, userId, quantity, price) {
+        $.ajax({
+            url: '@Url.Action("AddToCart", "Function")',
+            type: 'POST',
+            data: {
+                productId: productId,
+                userId: userId, // Đảm bảo rằng userId có giá trị
+                number: quantity,
+                allTotal: price * quantity
+            },
+            success: function (response) {
+                // Xử lý phản hồi thành công
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText); // Hiển thị thông báo lỗi
+            }
+        });
+    }
+</script>

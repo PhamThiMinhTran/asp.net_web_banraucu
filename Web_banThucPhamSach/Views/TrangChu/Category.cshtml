@@ -1,0 +1,150 @@
+﻿@model Web_banThucPhamSach.Models.PaginatedListViewModel<Web_banThucPhamSach.Data.Product>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_TrangChu.cshtml";
+}
+<style>
+    #chuyentrang {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+        #chuyentrang .btn-group {
+            margin-bottom: 10px;
+        }
+
+        #chuyentrang .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 50%;
+            transition: background-color 0.3s, color 0.3s;
+            text-transform: uppercase;
+        }
+
+        #chuyentrang .btn-outline-primary {
+            color: black;
+            border: 2px solid green;
+            background-color: seagreen;
+        }
+
+            #chuyentrang .btn-outline-primary:hover {
+                color: white;
+                background-color: darkgreen;
+            }
+
+        #chuyentrang .btn:disabled,
+        #chuyentrang .btn[disabled] {
+            color: #aaa;
+            background-color: #f5f5f5;
+            border-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        #chuyentrang .text-primary {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+
+</style>
+<section id="search-banner1">
+    <form method="get" asp-controller="TrangChu" asp-action="Index" class="search-box1">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" class="search-input1" placeholder="Tìm kiếm sản phẩm" name="search" required>
+        <input type="submit" class="search-btn1" value="Search" name="" id="">
+    </form>
+</section>
+<section id="category">
+    <div class="category-heading">
+        <h2>Category</h2>
+        <span>All</span>
+    </div>
+
+    <!-- box-container -->
+    <div class="category-container">
+        <a asp-controller="TrangChu" asp-action="Category" asp-route-category="Cá và thịt" class="category-box">
+            <img src="~/images/fish.png" alt="Fish">
+            <span>Cá và thịt</span>
+        </a>
+
+        <a asp-controller="TrangChu" asp-action="Category" asp-route-category="Rau củ" class="category-box">
+            <img src="~/images/Vegetables.png" alt="Vegatables">
+            <span>Rau củ</span>
+        </a>
+
+        <a asp-controller="TrangChu" asp-action="Category" asp-route-category="Trái cây" class="category-box">
+            <img src="~/images/TraiCay.png" alt="fruit">
+            <span>Trái cây</span>
+        </a>
+
+        <a asp-controller="TrangChu" asp-action="Category" asp-route-category="Sữa" class="category-box">
+            <img src="~/images/milk.png" alt="Milk">
+            <span>Sữa</span>
+        </a>
+
+        <a asp-controller="TrangChu" asp-action="Category" asp-route-category="Hạt giống" class="category-box">
+            <img src="~/images/Gardening.png" alt="Gardening">
+            <span>Hạt giống</span>
+        </a>
+
+        <a asp-controller="TrangChu" asp-action="Category" asp-route-category="Cá và thịt" class="category-box ">
+            <img src="~/images/cooking.png" alt="Cooking">
+            <span>Nấu ăn</span>
+        </a>
+
+        <a asp-controller="TrangChu" asp-action="Category" asp-route-category="Beauty" class="category-box @(ViewBag.CurrentCategory == "Làm đẹp" ? "active" : "")">
+            <img src="~/images/beauty.png" alt="Beauty">
+            <span>Làm đẹp</span>
+        </a>
+    </div>
+</section>
+<!-- popular product -->
+<section id="popular-product">
+    <div class="product-headding">
+        <h3>Tất cả sản phẩm</h3>
+    </div>
+
+    <div class="product-container">
+        @foreach (var sp in Model)
+        {
+            <div class="product-box">
+                <a asp-controller="Function" asp-action="TT_Product" asp-route-id="@sp.Id">
+                    @if (!string.IsNullOrEmpty(sp.Image))
+                    {
+                        var imagePaths = sp.Image.Split(',');
+                        <img src="@Url.Content(imagePaths[0])" alt="@sp.Title" />
+                    }
+                    <strong>@sp.Title</strong>
+                </a>
+                <span class="quantity">@sp.Number KG</span>
+                <span class="price">@sp.Price</span>
+                <a asp-controller="Function" asp-action="AddToCart" asp-route-productid="@sp.Id" class="cart-btn">
+                    <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+                </a>
+                <a href="" class="like-btn"><i class="fa-regular fa-heart"></i></a>
+            </div>
+        }
+    </div>
+    <div id="chuyentrang">
+        <div class="btn-group me-2" role="alert " group>
+            <a class="btn btn-outline-primary @Model.PreviouDisabledAttr"
+               asp-route-pageIndex="1"
+               asp-route-pageSize="@Model.PageSize">1</a>
+
+            <a class="btn btn-outline-primary @Model.PreviouDisabledAttr"
+               asp-route-pageIndex="@Model.PrevPageIndex"
+               asp-route-pageSize="@Model.PageSize"><</a>
+
+            <a class="btn btn-outline-primary @Model.NextDisabledAttr"
+               asp-route-pageIndex="@Model.NextPageIndex"
+               asp-route-pageSize="@Model.PageSize">></a>
+        </div>
+        <div class="text-primary">
+            Displaying @Model.ItemIndexFrom to @Model.ItemIndexTo of @Model.TotalCount items
+        </div>
+    </div>
+
+</section>

@@ -1,0 +1,285 @@
+﻿@model List<Web_banThucPhamSach.Data.Cart>
+
+@{
+    Layout = null;
+    decimal total = 0;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ hàng</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/full.css">
+</head>
+
+<body>
+    <nav class="navigation">
+        <!-- logo -->
+        <a href="/TrangChu" class="logo"><span>M</span>inhTran</a>
+
+        <!-- menu -->
+        <ul class="menu">
+            <li><a href="/TrangChu" class="active">Trang chủ</a></li>
+            <li><a href="#category">Danh mục sản phẩm</a></li>
+            <li><a href="#popular-product">Sản phẩm</a></li>
+            <li><a asp-area="" asp-controller="TrangChu" asp-action="About">Thông tin</a></li>
+            <li>
+                @if (!User.Identity.IsAuthenticated) // Nếu người dùng chưa đăng nhập
+                {
+                    <a asp-area="" asp-controller="TrangChu" asp-action="Login">Đăng nhập</a>
+                }
+                else // Nếu người dùng đã đăng nhập
+                {
+                    <div class="img-account">
+                        <img src="~/images/client-1.jpg" alt="">
+                    </div>
+                    <div class="dropdown">
+                        <div class="dropbtn">@User.Identity.Name</div>
+                        <div class="dropdown-content">
+                            <a asp-area="" asp-controller="Function" asp-action="Profile" asp-route-id="@User.FindFirst("Id")?.Value">Profile</a>
+                            <a href="/TrangChu/Logout">Logout</a>
+                        </div>
+                    </div>
+                }
+            </li>
+        </ul>
+
+        <div class="right-nav">
+            <a href="" class="like"><i class="fa-solid fa-heart"></i><span>0</span></a>
+            <a asp-controller="Function" asp-action="Cart" class="cart"><i class="fa-solid fa-cart-plus"></i><span id="cartQuantity">@ViewBag.QuantityCart</span></a>
+        </div>
+    </nav>
+    <section id="cart-main">
+        <div class="cart-all-layer" >
+            @if (Model != null && Model.Count > 0 && Model.Any())
+            {
+                <div class="header-menu-cart">
+                    <label><input type="checkbox" name="check-cart-all"> Sản phẩm</label>
+                    <ul>
+                        <li>Đơn giá</li>
+                        <li>Số lượng</li>
+                        <li>Số tiền</li>
+                        <li>Thao tác</li>
+                    </ul>
+                </div>
+
+                @foreach (var item in Model)
+                {
+                    decimal itemTotal = item.AllTotal.HasValue ? (decimal)item.AllTotal.Value : 0;
+                    total += itemTotal;
+
+                    <div class="OrderBox-in-cart" style="margin-bottom: 10px;">
+                        <div class="OrderBox-heading">
+                            <label><input type="checkbox" name="check-cart-all">@item.Product.Title</label>
+                        </div>
+                        <div class="OrderBox-main">
+                            <div class="check-img-product">
+                                <label><input type="checkbox"></label>
+                                @* <img src="~/images/@item.Product.Image" alt="@item.Product.Title"> *@
+                                @if (!string.IsNullOrEmpty(item.Product.Image))
+                                {
+                                    var imagePaths = item.Product.Image.Split(',');
+                                    <img src="@Url.Content(imagePaths[0])" alt="@item.Product.Title" />
+                                }
+                            </div>
+                            <div class="brief-information">
+                                <div class="name">@item.Product.Title</div>
+                                <p>@item.Product.Description</p>
+                            </div>
+                            @* <div class="quantity2">
+                                <div>
+                                    <Button id="tonggleButton-quantity2">
+                                        Phân loại <i class="fa-solid fa-sort-down"></i>
+                                    </Button>
+                                </div>
+                                <div>
+                                    <ul class="donvi">
+                                        <li>Kg</li>
+                                        <li>Bó</li>
+                                        <li>Túi</li>
+                                    </ul>
+                                </div>
+                            </div> *@
+                            <div class="price2">
+                                <p>@item.Product.Price<sup>đ</sup></p>
+                            </div>
+                            <div class="number2">
+                                <div class="up-number2" style="cursor: pointer;">
+                                    <i class="fa-solid fa-sort-up"></i>
+                                </div>
+                                <input class="quantity_product2" title="number-product" value="@item.Quantity" id="quantity-@item.ProductId" onchange="updateQuantity('@item.ProductId', this.value)">
+                                <div class="down-number2" style="cursor: pointer;">
+                                    <i class="fa-solid fa-sort-down"></i>
+                                </div>
+                            </div>
+                            <div class="fees-payable" id="total-@item.ProductId">@itemTotal.ToString("N0")<sup>đ</sup></div>
+                            <div class="other-functions">
+                                <a asp-controller="Function" asp-action="RemoveCart" asp-route-productid="@item.ProductId">
+                                    <i class="fa-solid fa-trash-can" style="cursor: pointer;"></i>
+                                </a>
+                                <a href="#">Tìm sản phẩm tương tự <i class="fa-solid fa-caret-down"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p style="display: flex; justify-content: center;">Giỏ hàng của bạn trống!</p>
+            }
+
+        </div>
+
+
+        <section id="All-total-buy-product">
+            <div class="heading-total-buy">
+                <div>
+                    <i class="fa-solid fa-ticket-simple"></i>
+                    <p>Voucher</p>
+                </div>
+                <a href="#">Chọn hoặc nhập mã</a>
+            </div>
+            <div class="end-total-buy">
+                <div class="check-all">
+                    <label for=""><input type="checkbox" name="check-all">Chọn tất cả</label>
+                    <i class="fa-solid fa-trash-can" style="cursor: pointer;"></i>
+                    <p> Xóa</p>
+                </div>
+                <div class="complete">
+                    <p>Tổng thanh toán:</p>
+                    <p id="cartTotal">@total.ToString("N0")</span><sup>đ</sup></p>
+                    <form asp-controller="Function" asp-action="ThanhToan">
+                        <button type="submit" class="pay">Thanh toán</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/trangchu.js"></script>
+    <script>
+        document.getElementById("tonggleButton-quantity2").addEventListener("click", function () {
+            const donvi = document.querySelector(".donvi");
+            donvi.classList.toggle("active");
+        });
+    </script>
+    <script>
+        // Tăng số lượng
+        document.querySelectorAll('.up-number2').forEach(function (button) {
+            button.addEventListener('click', function () {
+                // Tìm input liên quan
+                var input = this.closest('.OrderBox-main').querySelector('.quantity_product2');
+                var currentValue = parseInt(input.value);
+
+                // Tăng số lượng
+                input.value = currentValue + 1;
+                updateQuantity(input.id.split('-')[1], input.value);
+            });
+        });
+
+        // Giảm số lượng
+        document.querySelectorAll('.down-number2').forEach(function (button) {
+            button.addEventListener('click', function () {
+                // Tìm input liên quan
+                var input = this.closest('.OrderBox-main').querySelector('.quantity_product2');
+                var currentValue = parseInt(input.value);
+
+                // Giảm số lượng nhưng không được nhỏ hơn 1
+                if (currentValue > 1) {
+                    input.value = currentValue - 1;
+                    updateQuantity(input.id.split('-')[1], input.value);
+                }
+            });
+        });
+
+        function updateQuantity(productId, quantity) {
+            var quantity = parseInt(quantity);
+            if (isNaN(quantity) || quantity < 1) {
+                alert("Số lượng phải là số nguyên dương.");
+                return;
+            }
+            $.ajax({
+                url: '/updatecart',
+                type: 'POST',
+                data: {
+                    productId: productId,
+                    quantity: quantity
+                },
+                success: function (response) {
+                    if (response.success) {
+                        // Cập nhật lại tổng tiền cho sản phẩm sau khi thay đổi số lượng
+                        var total = response.total;
+                        $('#total-' + productId).text(total + 'đ');
+                        var cartTotal = 0;
+                        response.cartItems.forEach(function (item) {
+                            var itemTotal = item.quantity * item.product.price;
+                            cartTotal += itemTotal;
+                            totalQuantity += item.quantity; //Tính tổng số lượng sản phẩm trong giỏ hàng
+                        });
+                        $('#total-' + productId).text(response.total.toLocaleString('vi-VN') + 'đ');
+                        $('#cartTotal').text(response.cartTotal.toLocaleString('vi-VN') + 'đ');
+                        $('#cartQuantity').text(totalQuantity); //Cập nhật số lượng giỏ hàng
+                    } else {
+                        alert("Cập nhật giỏ hàng không thành công.");
+                    }
+                }, // Đóng dấu ngoặc của success
+                error: function () {
+                    alert("Có lỗi xảy ra khi cập nhật giỏ hàng.");
+                }
+            }); // Đóng dấu ngoặc của $.ajax
+        }
+
+        function updateCartUI(cartItems) {
+            var total = 0;
+            cartItems.forEach(item => {
+                // In thông tin ra console để kiểm tra dữ liệu
+                console.log("Product ID: ", item.productId);
+                console.log("Product Price: ", item.product.price);
+                console.log("Quantity: ", item.quantity);
+
+                // Chuyển đổi giá và số lượng thành số để tính toán
+                var price = parseFloat(item.product.price) || 0;
+                var quantity = parseInt(item.quantity) || 0;
+
+                var productTotal = price * quantity;
+
+                $('#quantity-' + item.productId).val(quantity);
+                $('#total-' + item.productId).text(productTotal.toFixed(2));
+
+                total += productTotal;
+            });
+            $('#cartTotal').text(total);
+        }
+
+        // Hàm cập nhật số lượng giỏ hàng qua AJAX
+        function updateCartQuantity() {
+            $.ajax({
+                url: '@Url.Action("BagCart", "Function")',
+                type: 'GET',
+                success: function (result) {
+                    $('#cartQuantity').text(result.quantity);  // Thay đổi số lượng giỏ hàng
+                },
+                error: function () {
+                    console.log("Lỗi khi tải số lượng giỏ hàng");
+                }
+            });
+        }
+
+        // Gọi updateCartQuantity khi trang tải
+        $(document).ready(function () {
+            updateCartQuantity();
+        });
+
+        // Gọi updateCartQuantity khi sản phẩm được thêm vào giỏ hàng
+        $('body').on('click', '.add-to-cart-button', function () {
+            updateCartQuantity();
+        });
+    </script>
+</body>
+
+</html>

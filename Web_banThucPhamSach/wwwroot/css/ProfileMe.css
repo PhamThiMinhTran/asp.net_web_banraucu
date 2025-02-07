@@ -1,0 +1,527 @@
+﻿
+:root {
+    --heart--: rgb(197, 158, 195);
+    --heart-hover--: rgb(197, 144, 194);
+    --cart--: rgb(142, 177, 142);
+    --cart-hover--: rgb(160, 211, 160);
+    --TrangChu-hover--: rgb(99, 137, 99);
+    --color-main--: #4eb060;
+    --background-heart-cart-icon--: #fff0ee;
+}
+
+* {
+    font-family: 'Poppins';
+    margin: 0px;
+    padding: 0px;
+    scroll-behavior: smooth;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none !important; 
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: poppins;
+}
+
+/* -------------- */
+#main-profile,
+#search2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: self-start;
+    padding: 15px;
+    max-width: 1070px;
+    width: 100%;
+    margin: auto;
+    flex-direction: row;
+}
+/* search */
+.logo-search2 {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search2 {
+    margin-top: -20px;
+}
+
+.search-banner-text2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-left: 70px;
+    position: relative;
+}
+
+    .search-banner-text2 h1 {
+        font-size: 3rem;
+        line-height: 55px;
+        color: black;
+    }
+
+    .search-banner-text2 strong {
+        color: var(--cart-hover--);
+        font-size: 1.4rem;
+        margin-top: 4px;
+    }
+
+.search-box2 {
+    background-color: #ffffff;
+    width: 700px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-top: 25px;
+    padding: 0px 5px 0px 20px;
+    border: 1px solid black;
+    border-radius: 30px;
+}
+
+    .search-box2 i {
+        font-size: 1.3rem;
+        color: #000000;
+        margin: 0px 10px;
+    }
+
+    .search-box2 .search-input2 {
+        height: 40px;
+        border: none;
+        width: 100%;
+        padding: 0px 10px;
+        outline: none;
+    }
+
+    .search-box2 .search-btn2 {
+        width: 220px;
+        height: 40px;
+        border-radius: 30px;
+        background-color: var(--color-main--);
+        border: none;
+        color: #ffffff;
+        outline: none;
+        cursor: pointer;
+        transition: all ease 0.3s;
+    }
+
+        .search-box2 .search-btn2:hover {
+            background-color: #31723d;
+            transition: all ease 0.3s;
+        }
+
+.hidden {
+    display: none;
+}
+/* ------- */
+.sidebar {
+    width: auto;
+    background-color: var(--cart--);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+    .sidebar a {
+        display: block;
+        padding: 10px;
+        color: black;
+        text-decoration: none;
+        margin-bottom: 10px;
+        font-size: 20px;
+    }
+
+        .sidebar a:hover {
+            background-color: var(--cart-hover--);
+            border-radius: 15px;
+        }
+
+.account {
+    display: flex;
+    font-size: 20px;
+    flex-direction: row;
+    .img-account
+
+{
+    margin-right: 13px;
+}
+
+.name-profile {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    .edit
+
+{
+    margin-left: 15px;
+}
+
+}
+padding: 20px 0px;
+}
+/* --------------------- */
+.content {
+    flex-grow: 1;
+}
+
+#personal-info {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 20px;
+    padding: 10px 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pesonal-info-heading {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+    .pesonal-info-heading h2 {
+        font-size: 24px;
+        margin: 0;
+        color: black;
+    }
+
+    .pesonal-info-heading p {
+        font-size: 14px;
+        color: black;
+    }
+
+.form-profile {
+    margin-bottom: 15px;
+}
+
+    .form-profile label {
+        display: block;
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 5px;
+    }
+
+    .form-profile input[type="text"],
+    .form-profile input[type="email"],
+    .form-profile input[type="password"],
+    .form-profile input[type="datetime"] {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid green;
+        border-radius: 4px;
+        box-sizing: border-box;
+        outline: none;
+        transition: border-color 0.3s;
+    }
+
+        .form-profile input[type="text"]:focus,
+        .form-profile input[type="email"]:focus,
+        .form-profile input[type="password"]:focus,
+        .form-profile input[type="datetime"]:focus {
+            border-color: #007BFF;
+        }
+
+.save {
+    text-align: center;
+    margin-top: 20px;
+}
+
+    .save button {
+        padding: 10px 20px;
+        font-size: 16px;
+        color: #fff;
+        background-color: var(--cart--);
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .save button:hover {
+            background-color: var(--color-main--);
+        }
+/* --------------- */
+#orders {
+    padding: 20px;
+    margin: 0 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    #orders h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+#buy-product {
+    display: flex;
+    /*  justify-content: space-between; */
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+    #buy-product a {
+        text-decoration: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        color: black;
+        border: 1px solid green;
+        transition: all 0.3s ease;
+    }
+
+        #buy-product a:hover {
+            background-color: var(--cart--);
+            color: #fff;
+        }
+
+        #buy-product a.active {
+            background-color: var(--color-main--);
+            color: white;
+        }
+/*--------Order------------*/
+/* Container for all order sections */
+.show_orders_products {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    max-width: 800px;
+    margin: auto;
+}
+
+    /* Individual order card */
+    .show_orders_products > div {
+        display: flex;
+        position: relative;
+        justify-content: space-around;
+        flex-direction: column;
+        border-radius: 6px;
+    }
+
+.box_product_user {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    align-items: center;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+    &:hover
+{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+}
+    /* Product image on the left */
+    .box_product_user img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-right: 20px;
+    }
+
+/* Order details container on the right */
+.show_orders_products h4,
+.show_orders_products p,
+.show_orders_products h5 {
+    margin: 4px 0;
+}
+
+/* Order heading */
+.show_orders_products h4 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Text styling */
+.show_orders_products p {
+    font-size: 18px;
+    color: #555;
+}
+
+.show_orders_products h5 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #444;
+}
+
+/* Button styling */
+.show_orders_products button {
+    padding: 8px 16px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+    .show_orders_products button:hover {
+        background-color: #0056b3;
+    }
+
+/*------- Lien ket ngan hàng  --------------*/
+/* Quyền cá nhân */
+#permissions {
+    margin: 0px 20px;
+    font-size: 20px;
+    background-color: #f6f5f5;
+    padding: 10px;
+    border-radius: 15px;
+    h2
+
+{
+    text-align: center;
+}
+
+a {
+    color: black;
+}
+
+i {
+    font-size: 30px;
+    padding-bottom: 10px;
+}
+
+}
+
+.LienKetTaiKhoan_TaiKhoan {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    text-align: center;
+    align-self: center;
+    padding: 10px;
+}
+
+.ThongTinNganHang {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    > div
+
+{
+    margin-top: 10px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 15px;
+    a
+
+{
+    display: flex;
+    align-items: center;
+    padding: 0px 10px;
+    i
+
+{
+    margin-right: 20px;
+}
+
+}
+}
+}
+/* ------------ */
+* Dropdown CSS */
+.dropdown {
+    display: none; /* Ẩn mặc định */
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.dropdown-item {
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+    .dropdown-item:hover {
+        background-color: #f5f5f5;
+    }
+
+/* Form nhập thông tin tài khoản */
+.account-info {
+    display: none; /* Ẩn mặc định */
+    margin-top: 10px;
+    padding: 15px;
+    background-color: #fafafa;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+    .account-info label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+
+    .account-info input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+
+/* Nút mở dropdown */
+#bank-link-domestic, #bank-link-international, #bank-link-debt {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+    #bank-link-domestic:hover, #bank-link-international:hover, #bank-link-debt:hover {
+        background-color: #e0e0e0;
+    }
+
+/* Thông tin ngân hàng */
+.NganHangNoiDia, .NganHangQuocTe, .GhiNo {
+    position: relative; /* Để dropdown cố định trong vùng cha */
+    margin-bottom: 10px;
+}
+
+/* Điều chỉnh khi hiển thị trên màn hình nhỏ */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+    }
+
+    .content {
+        margin-left: 0;
+    }
+
+    #main-profile {
+        display: flex;
+        flex-direction: column;
+    }
+}

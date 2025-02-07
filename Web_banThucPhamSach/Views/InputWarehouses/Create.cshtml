@@ -1,0 +1,145 @@
+﻿@model Web_banThucPhamSach.Data.InputWarehouseViewModel
+@{
+    ViewData["Title"] = "Nhập Kho";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+<style>
+    .container{
+        margin: 0px;
+    }
+    /* Tìm kiếm sản phẩm */
+    #search-product {
+        border: 2px solid #007bff;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    #search-results {
+        border: 1px solid #ccc;
+        border-top: none;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+
+        #search-results .list-group-item {
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+            #search-results .list-group-item:hover {
+                background-color: #007bff;
+                color: #fff;
+            }
+</style>
+<div class="container mt-4">
+    <h2>@ViewData["Title"]</h2>
+    <hr />
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <!-- Nhà cung cấp -->
+        <div class="form-group">
+            <label asp-for="SuppliersId" class="control-label">Nhà cung cấp</label>
+            <select asp-for="SuppliersId" class="form-control" asp-items="ViewBag.SuppliersId"></select>
+        </div>
+
+        <!-- Ngày nhập -->
+        <div class="form-group">
+            <label asp-for="DateIn" class="control-label">Ngày nhập kho</label>
+            <input asp-for="DateIn" class="form-control" type="date" />
+        </div>
+
+        <!-- Tìm kiếm sản phẩm -->
+        <div class="form-group" style="display: inline;">
+            <label for="search-product">Tìm kiếm sản phẩm</label>
+            <input type="text" id="search-product" class="form-control" placeholder="Nhập tên sản phẩm..." />
+            <ul id="search-results" class="list-group mt-2" style="display: none;"></ul>
+        </div>
+
+        <!-- Danh sách sản phẩm -->
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Giá</th>
+                    <th>Tổng</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="product-rows"></tbody>
+        </table>
+
+        <input type="submit" value="Lưu nhập kho" class="btn btn-primary" />
+    </form>
+</div>
+
+<script>
+    document.getElementById("search-product").addEventListener("input", function () {
+        const keyword = this.value.trim();
+        const searchResults = document.getElementById("search-results");
+
+        if (keyword.length < 2) {
+            searchResults.style.display = "none";
+            return;
+        }
+
+        fetch(`/InputWarehouses/SearchProducts?keyword=${encodeURIComponent(keyword)}`)
+            .then(response => response.json())
+            .then(data => {
+                searchResults.innerHTML = "";
+                if (data.success) {
+                    data.data.forEach(product => {
+                        const li = document.createElement("li");
+                        li.className = "list-group-item";
+                        li.dataset.id = product.id;
+                        li.dataset.price = product.price;
+                        li.textContent = `${product.title} - ${product.price} VND`;
+                        li.addEventListener("click", () => addProductToTable(product));
+                        searchResults.appendChild(li);
+                    });
+                    searchResults.style.display = "block";
+                } else {
+                    searchResults.innerHTML = "<li class='list-group-item text-danger'>Không tìm thấy sản phẩm nào!</li>";
+                    searchResults.style.display = "block";
+                }
+            });
+    });
+
+    function addProductToTable(product) {
+        const tableBody = document.getElementById("product-rows");
+        const index = tableBody.children.length;
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>
+                <input type="hidden" name="Products[${index}].ProductId" value="${product.id}" />
+                <input type="hidden" name="Products[${index}].NameProduct" value="${product.title}" />
+                ${product.title}
+            </td>
+            <td>
+                <input name="Products[${index}].NumberInput" class="form-control" type="number" value="1" min="1" onchange="updateTotal(this, ${product.price})" />
+            </td>
+            <td>
+                <input name="Products[${index}].Price" class="form-control" value="${product.price}" readonly />
+            </td>
+            <td>
+                <input class="form-control total" value="${product.price}" readonly />
+            </td>
+            <td>
+                <button type="button" class="btn btn-danger" onclick="removeProductRow(this)">Xóa</button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    }
+
+    function updateTotal(input, price) {
+        const row = input.closest("tr");
+        const quantity = parseInt(input.value);
+        const totalCell = row.querySelector(".total");
+        totalCell.value = (price * quantity).toFixed(2);
+    }
+
+    function removeProductRow(button) {
+        button.closest("tr").remove();
+    }
+</script>

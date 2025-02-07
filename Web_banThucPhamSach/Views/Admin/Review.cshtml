@@ -1,0 +1,65 @@
+﻿@model List<Web_banThucPhamSach.Data.Review>
+@{
+    ViewData["Title"] = "Review";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<style>
+    .review-list {
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .review-list h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+    .table th,
+    .table td {
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
+<div class="review-list">
+    <h1>Danh sách đánh giá</h1>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Sản phẩm</th>
+                <th>Người dùng</th>
+                <th>Đánh giá</th>
+                <th>Ngày tạo</th>
+                <th>Hoạt động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count == 0)
+            {
+                <tr>
+                    <td colspan="6" class="text-center">Không có đánh giá nào.</td>
+                </tr>
+            }
+            else
+            {
+                int index = 1;
+                foreach (var review in Model)
+                {
+                    <tr>
+                        <td>@index</td>
+                        <td>@review.Product?.Title </td>
+                        <td>@review.User?.Fullname </td>
+                        <td>@review.Comment</td>
+                        <td>@review.CreateAt?.ToString("dd/MM/yyyy") </td>
+                        <td><i class="fa-solid fa-comments"></i> | Recomment</td>
+                    </tr>
+                    index++;
+                }
+            }
+        </tbody>
+    </table>
+</div>

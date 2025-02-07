@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewData["Title"] = "Success";
+    Layout = "~/Views/Shared/_TrangChu.cshtml";
+}
+<style>
+    .success {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 65vh;
+        margin: 0;
+        background-color: #fff; /* Màu nền nhẹ nhàng */
+    }
+
+    .success-container {
+        text-align: center;
+        padding: 80px;
+        background-color: #4CAF50; /* Màu nền của thông báo */
+        color: white; /* Màu chữ trắng */
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 80%;
+        max-width: 500px; /* Đảm bảo khung không quá rộng */
+        h2
+
+    {
+        font-size: 40px;
+        margin: 0;
+    }
+
+    a {
+        display: inline-block;
+        margin-top: 20px;
+        font-size: 18px;
+        color: white;
+        text-decoration: none;
+        border: 2px solid white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+        a:hover {
+            background-color: #45a049;
+        }
+    }
+
+
+</style>
+<section class="success">
+    <div class="success-container">
+        <h2>Thao tác đã hoàn thành</h2>
+        <a href="@Url.Action("Index", "TrangChu")">Về trang chủ</a>
+    </div>
+</section>
+

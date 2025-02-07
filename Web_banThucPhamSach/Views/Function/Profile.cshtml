@@ -1,0 +1,55 @@
+﻿@* @model Web_banThucPhamSach.Data.User *@
+@model Web_banThucPhamSach.Models.UserOrderViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Profile.cshtml";
+}
+<div id="personal-info">
+    <div class="pesonal-info-heading">
+        <h2>Hồ sơ cá nhân</h2>
+        <p>Quản lý thông tin cá nhân để bảo mật tài khoản</p>
+    </div>
+    <form asp-controller="Function" asp-action="EditProfile" method="post">
+        <input type="hidden" name="Id" value="@Model.User.Id" />
+        <div class="form-profile">
+            <label for="UserName">Username</label>
+            <input name="UserName" type="text" value="@Model.User.UserName" />
+        </div>
+        <div class="form-profile">
+            <label for="Fullname">Tên đầy đủ</label>
+            <input name="Fullname" type="text" value="@Model.User.Fullname" />
+        </div>
+        <div class="form-profile">
+            <label for="Email">Email</label>
+            <input name="Email" type="email" value="@Model.User.Email" />
+        </div>
+        <div class="form-profile">
+            <label for="PhoneNumber">Số điện thoại</label>
+            <input name="PhoneNumber" type="text" value="@Model.User.PhoneNumber" />
+
+        </div>
+        <div class="form-profile">
+            <label for="Address">Địa chỉ</label>
+            <input name="Address" type="text" value="@Model.User.Address" />
+
+        </div>
+        <div class="form-profile">
+            <label for="Password">Mật khẩu</label>
+            <input name="Password" type="password" value="@Model.User.Password" />
+
+        </div>
+        <div class="form-profile">
+            <label for="CreateAt">Ngày tạo</label>
+            <input name="CreateAt" type="datetime" readonly value="@Model.User.CreateAt" />
+
+        </div>
+        <div class="form-profile">
+            <label for="UpdateAt">Cập nhật</label>
+            <input name="UpdateAt" type="datetime" readonly value="@Model.User.UpdateAt" />
+
+        </div>
+        <div class="save">
+            <button type="submit" value="Save">Save Changes</button>
+        </div>
+    </form>
+</div>

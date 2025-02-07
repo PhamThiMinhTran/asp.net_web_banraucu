@@ -1,0 +1,133 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách nhân viên</title>
+</head>
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        margin: auto;
+        width: 210mm;
+        height: 297mm;
+    }
+
+    h2, h3 {
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    h2 {
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    h3 {
+        font-weight: bold;
+        font-size: 16px;
+        margin-top: 5px;
+    }
+
+    .sub-title {
+        text-align: center;
+        font-weight: bold;
+        font-size: 20px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    .info {
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .header-table th {
+        font-weight: bold;
+    }
+
+    .pdf-heading {
+        display: flex;
+        justify-content: space-between;
+        .pdf-heading-left span
+
+    {
+        font-size: 30px;
+        color: red;
+    }
+
+    }
+</style>
+<body>
+    <section>
+        <div class="pdf-heading">
+            <div class="pdf-heading-left">
+                <h1>Nông sản sạch </br> <span>M</span>inhTran</h1>
+            </div>
+            <div class="pdf-heading-right">
+                <h1>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</h1>
+                <h2>Độc lập - Tự do - Hạnh phúc</h2>
+            </div>
+        </div>
+        <div class="pdf-information">
+            <div class="sub-title">BẢN KÊ KHAI DANH SÁCH NHÂN SỰ VÀ CHỨC VỤ</div>
+            <div class="info">
+                Cơ sở kinh doanh: ........................................<br>
+                Họ tên chủ cơ sở: Phạm Thị Minh Trân Số CCHND: ........................................<br>
+                Địa điểm kinh doanh: Thành Phố A Việt Nam DT: ........................................<br>
+                Phạm vi kinh doanh: Tỉnh Vĩnh Long, Bạc Liêu
+            </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Họ và tên</th>
+                    <th>Email</th>
+                    <th>Số điện thoại</th>
+                    <th>Địa chỉ</th>
+                    <th>Ngày tạo</th>
+                    <th>Ngày cập nhật</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var employee in Model)
+                {
+                    <tr>
+                        <td>@employee.Id</td>
+                        <td>@employee.FullName</td>
+                        <td>@employee.Email</td>
+                        <td>@employee.PhoneNumber</td>
+                        <td>@employee.Address</td>
+                        <td>@employee.CreateAt</td>
+                        <td>@employee.UpdateAt</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+</body>
+</html>

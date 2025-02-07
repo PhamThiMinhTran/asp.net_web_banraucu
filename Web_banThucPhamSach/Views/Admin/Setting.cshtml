@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Setting";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div id="setting" style="width: 1000px;">
+    <h2>Cài đặt</h2>
+    <h3>Chuyển đổi theme</h3>
+    <div class="setting left">
+        <p>Bình thường</p>
+        <button onclick="changeTheme('BinhThuong')">Đổi</button>
+    </div>
+    <div class="setting right">
+        <p>Chuyển đổi thành mùa Valentine</p>
+        <button onclick="changeTheme('Valentine')">Đổi</button>
+    </div>
+    <div class="setting left">
+        <p>Chuyển đổi thành mùa Halloween</p>
+        <button onclick="changeTheme('Halloween')">Đổi</button>
+    </div>
+    <div class="setting right">
+        <p>Chuyển đổi thành mùa Tết Nguyên Đán</p>
+        <button onclick="changeTheme('Lunar_New_Year')">Đổi</button>
+    </div>
+</div>

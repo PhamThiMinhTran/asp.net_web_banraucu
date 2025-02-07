@@ -1,0 +1,84 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="~/css/admin.css" rel="stylesheet" />
+</head>
+<body data-theme="@ViewData["theme"]">
+    <nav class="navigation">
+        <!-- logo -->
+        <a href="/TrangChu" class="logo"><span>M</span>inhTran</a>
+
+        <!-- menu -->
+        <ul class="menu">
+            <li><a href="/TrangChu" class="active">Trang chủ</a></li>
+            <li><a href="#category">Danh mục sản phẩm</a></li>
+            <li><a href="#popular-product">Sản phẩm</a></li>
+            <li><a asp-area="" asp-controller="TrangChu" asp-action="About">Thông tin</a></li>
+            <li>
+                @if (!User.Identity.IsAuthenticated) // Nếu người dùng chưa đăng nhập
+                {
+                    <a asp-area="" asp-controller="TrangChu" asp-action="Login">Đăng nhập</a>
+                }
+                else // Nếu người dùng đã đăng nhập
+                {
+                    <div class="img-account">
+                        <img src="~/images/client-1.jpg" alt="">
+                    </div>
+                    <div class="dropdown">
+                        <div class="dropbtn">@User.Identity.Name</div>
+                        <div class="dropdown-content">
+                            <a a asp-area="" asp-controller="Function" asp-action="Profile">Profile</a>
+                            <a href="/TrangChu/Logout">Logout</a>
+                        </div>
+                    </div>
+                }
+            </li>
+        </ul>
+
+        <div class="right-nav">
+            <a href="" class="like"><i class="fa-solid fa-heart"></i><span>0</span></a>
+            <a href="" class="cart"><i class="fa-solid fa-cart-plus"></i><span>0</span></a>
+        </div>
+    </nav>
+    <div id="main-body">
+        <div class="main-screenAdmin">
+            <div class="sidebar">
+                <div class="account">
+                    <div class="img-account">
+                        <img src="~/images/client-1.jpg" alt="">
+                        <p>Minh Trân</p>
+                    </div>
+                </div>
+                <div class="menu-function">
+                    <a href="/Admin" onclick="showContent('dashboard')">Thông báo chung</a>
+                    <a asp-area="" asp-controller="Users" asp-action="Index" onclick="showContent('Manager-Customer')">Quản lý khách hàng</a>
+                    <a asp-area="" asp-controller="Admin" asp-action="FunctionChat" onclick="showContent('Chat-with-Customer')">Nhắn tin</a>
+                    <a asp-area="" asp-controller="Staffs" asp-action="Index" onclick="showContent('Manager-staff')">Quản lý nhân viên</a>
+                    <a asp-area="" asp-controller="Products" asp-action="Index" onclick="showContent('Manager-Product')">Quản lý sản phẩm</a>
+                    <a asp-area="" asp-controller="Admin" asp-action="Review" onclick="showContent('content-management')">Quản lý nội dung</a>
+                    <a asp-area="" asp-controller="Orders" asp-action="Index" onclick="showContent('order-management')">Quản lý đơn hàng và thanh toán</a>
+                    <a asp-area="" asp-controller="Admin" asp-action="ThongKe" onclick="showContent('report-management')">Báo cáo thống kê</a>
+                    <a asp-area="" asp-controller="InputWarehouses" asp-action="Index" onclick="showContent('PhanQuyen')">Quản lý nhập kho</a>
+                    <a asp-area="" asp-controller="Admin" asp-action="Setting" onclick="showContent('setting')">Cài đặt</a>
+                </div>
+            </div>
+        </div>
+        @RenderBody()
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/admin.js"></script>
+    <script type="text/javascript" src="~/js/theme.js" asp-append-version="true"></script>
+</body>
+</html>

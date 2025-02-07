@@ -1,0 +1,117 @@
+﻿@* @model IEnumerable<Web_banThucPhamSach.Data.Product> *@
+    @model PaginatedListViewModel<Web_banThucPhamSach.Data.Product>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div id="Manager-Product">
+    <div class="container">
+        <h1>Quản lý Sản phẩm</h1>
+
+        <!-- Button to add new customer -->
+        <button class="add-btn"> <a asp-action="Create">Thêm sản phẩm</a></button>
+
+        <!-- Customer Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Loại sản phẩm</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Giảm giá</th>
+                    <th>Hình ảnh</th>
+                    <th>Giới thiệu</th>
+                    <th>Giới thiệu món ăn</th>
+                    <th>Create At</th>
+                    <th>Updated At</th>
+                    <th>Số lượng</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Category.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Discount)
+                        </td>
+                        <td>
+                            @*  @Html.DisplayFor(modelItem => item.Image) *@
+                            @if (!string.IsNullOrEmpty(item.Image))
+                            {
+                                foreach (var imagePath in item.Image.Split(','))
+                                {
+                                    <img src="@Url.Content(imagePath)" alt="Product Image" width="10" height="10" />
+                                }
+                            }
+                            else
+                            {
+                                <span>No images available</span> <!-- Hoặc một thông báo khác nếu không có hình ảnh -->
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DescriptionDish)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreateAt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UpdateAt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Number)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="download-form">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="exportButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Xuất báo cáo
+            </button>
+            <div class="dropdown-menu" aria-labelledby="exportButton">
+                <a class="dropdown-item" href="#" onclick="exportReport('pdf')">Xuất PDF</a>
+                <a class="dropdown-item" href="#" onclick="exportReport('excel')">Xuất Excel</a>
+                <a class="dropdown-item" href="#" onclick="exportReport('word')">Xuất Word</a>
+            </div>
+        </div>
+    </div>
+    <div id="chuyentrang">
+        <div class="btn-group me-2" role="alert " group>
+            <a class="btn btn_outline-primary @Model.PreviouDisabledAttr" asp-route-pageSize="@Model.PageSize" asp-route-pageIndex="1">First</a>
+            <a class="btn btn_outline-primary @Model.PreviouDisabledAttr" asp-route-pageSize="@Model.PageSize" asp-route-pageIndex="@Model.PrevPageIndex">Prev</a>
+            <a class="btn btn_outline-primary @Model.NextDisabledAttr" asp-route-pageSize="@Model.PageSize" asp-route-pageIndex="@Model.NextPageIndex">Next</a>
+            <a class="btn btn_outline-primary @Model.NextDisabledAttr" asp-route-pageSize="@Model.PageSize" asp-route-pageIndex="@Model.TotalPages">Last</a>
+        </div>
+        <div class="text-primary">Displaying @Model.ItemIndexFrom to @Model.ItemIndexTo of @Model.TotalCount items</div>
+    </div>
+</div>
+<script type="text/javascript">
+    function exportReport(format) {
+        const url = `/Reports/ReportProduct?format=${format}`;
+        window.location.href = url; // Chuyển hướng đến URL để tải file
+    }
+</script>

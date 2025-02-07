@@ -1,0 +1,115 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+<body>
+    <div id="content">
+        <div class="content">
+            <!-- Thông báo -->
+            <div id="dashboard">
+                <h1>Thông Báo Chung</h1>
+
+                <!-- Thông tin lượt thích, theo dõi -->
+                <div class="stats">
+                    <div class="stat-item">
+                        <h2>Người Theo Dõi Shop</h2>
+                        <p>15,000</p>
+                    </div>
+                    <div class="stat-item">
+                        <h2>Lượt Thích</h2>
+                        <p>12,500</p>
+                    </div>
+                    <div class="stat-item">
+                        <h2>Người Theo Dõi</h2>
+                        <p>14,200</p>
+                    </div>
+                </div>
+
+                <!-- Doanh thu tháng: bảng và biểu đồ -->
+                <div class="revenue-section">
+                    <div class="revenue-table">
+                        <h2>Doanh Thu Tháng 9</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Ngày</th>
+                                    <th>Doanh Thu (VNĐ)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>01/09</td>
+                                    <td>20,000,000</td>
+                                </tr>
+                                <tr>
+                                    <td>05/09</td>
+                                    <td>15,000,000</td>
+                                </tr>
+                                <tr>
+                                    <td>10/09</td>
+                                    <td>25,000,000</td>
+                                </tr>
+                                <tr>
+                                    <td>15/09</td>
+                                    <td>30,000,000</td>
+                                </tr>
+                                <!-- Thêm các hàng khác tương tự -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Biểu đồ doanh thu -->
+                    <div class="revenue-chart">
+                        <canvas id="revenuePieChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Bảng thông báo -->
+                <div class="notification-section">
+                    <h2>Thông Báo</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Loại Thông Báo</th>
+                                <th>Nội Dung</th>
+                                <th>Thời Gian</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Đơn Hàng</td>
+                                <td>Khách hàng đã đặt đơn hàng #12345</td>
+                                <td>29/09/2024, 10:30 AM</td>
+                            </tr>
+                            <tr>
+                                <td>Theo Dõi</td>
+                                <td>Người dùng Minh Trân vừa theo dõi shop của bạn</td>
+                                <td>29/09/2024, 09:15 AM</td>
+                            </tr>
+                            <tr>
+                                <td>Cửa Hàng</td>
+                                <td>Khuyến mãi mới vừa được cập nhật</td>
+                                <td>28/09/2024, 08:45 AM</td>
+                            </tr>
+                            <!-- Thêm các thông báo khác nếu cần -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Khách hàng -->
+            <!-- Nhân viên -->
+            <!-- Quản lý sản phẩm -->
+            <!-- QUản lý nội dung -->
+            <!-- Quản lý đơn hàng và truy cập -->       
+            <!-- Báo cáo và doanh thu -->
+            <!-- Phân quyền??? -->
+            <!-- Cài đặt -->
+
+        </div>
+    </div>
+    <!-- script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="Admin.js"></script>
+    <script src="theme.js"></script>
+</body>

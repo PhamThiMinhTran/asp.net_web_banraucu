@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Web_banThucPhamSach.Data.Staff>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div id="Manager-staff">
+    <div class="container">
+        <h1>Quản lý nhân viên</h1>
+
+        <!-- Button to add new customer -->
+        <button><a asp-action="Create" class="add-btn">Thêm nhân viên</a></button>
+
+        <!-- Customer Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên đầy đủ</th>
+                    <th>Tên đăng nhập</th>
+                    <th>Email</th>
+                    <th>Số điện thoại</th>
+                    <th>Địa chỉ</th>
+                    <th>Password</th>
+                    <th>Ngày tạo</th>
+                    <th>Cập nhật</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Password)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreateAt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UpdateAt)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="download-form">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="exportButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Xuất báo cáo
+            </button>
+            <div class="dropdown-menu" aria-labelledby="exportButton">
+                <a class="dropdown-item" href="#" onclick="exportReport('pdf')">Xuất PDF</a>
+                <a class="dropdown-item" href="#" onclick="exportReport('excel')">Xuất Excel</a>
+                <a class="dropdown-item" href="#" onclick="exportReport('word')">Xuất Word</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function exportReport(format) {
+        const url = `/Reports/ReportStaff?format=${format}`;
+        window.location.href = url; // Chuyển hướng đến URL để tải file
+    }
+</script>

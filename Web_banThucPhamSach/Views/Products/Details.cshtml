@@ -1,0 +1,76 @@
+﻿@model Web_banThucPhamSach.Data.Product
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div>
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Tên sản phẩm:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            Đơn giá:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class = "col-sm-2">
+            Giảm giá:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Discount)
+        </dd>
+        <dt class = "col-sm-2">
+            Hình ảnh:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Image)
+        </dd>
+        <dt class = "col-sm-2">
+            Giới thiệu:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            Món ăn:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DescriptionDish)
+        </dd>
+        <dt class = "col-sm-2">
+            Tạo ngày:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CreateAt)
+        </dd>
+        <dt class = "col-sm-2">
+            Cập nhật:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UpdateAt)
+        </dd>
+        <dt class = "col-sm-2">
+           Số lượng:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Number)
+        </dd>
+        <dt class = "col-sm-2">
+            Thuộc loại:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Category.Id)
+        </dd>
+    </dl>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+</div>

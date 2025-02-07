@@ -1,0 +1,16 @@
+E:\Web_BanThucPham_NongSanSach\Web_BanThucPhamSach\WinFormsApp1\bin\Debug\net8.0-windows\WinFormsApp1.exe
+E:\Web_BanThucPham_NongSanSach\Web_BanThucPhamSach\WinFormsApp1\bin\Debug\net8.0-windows\WinFormsApp1.deps.json
+E:\Web_BanThucPham_NongSanSach\Web_BanThucPhamSach\WinFormsApp1\bin\Debug\net8.0-windows\WinFormsApp1.runtimeconfig.json
+E:\Web_BanThucPham_NongSanSach\Web_BanThucPhamSach\WinFormsApp1\bin\Debug\net8.0-windows\WinFormsApp1.dll
+E:\Web_BanThucPham_NongSanSach\Web_BanThucPhamSach\WinFormsApp1\bin\Debug\net8.0-windows\WinFormsApp1.pdb
+E:\Web_BanThucPham_NongSanSach\Web_BanThucPhamSach\WinFormsApp1\obj\Debug\net8.0-windows\WinFormsApp1.Form1.resources
+E:\Web_BanThucPham_NongSanSach\Web_BanThucPhamSach\WinFormsApp1\obj\Debug\net8.0-windows\WinFormsApp1.csproj.GenerateResource.cache
+E:\Web_BanThucPham_NongSanSach\Web_BanThucPhamSach\WinFormsApp1\obj\Debug\net8.0-windows\WinFormsApp1.GeneratedMSBuildEditorConfig.editorconfig
+E:\Web_BanThucPham_NongSanSach\Web_BanThucPhamSach\WinFormsApp1\obj\Debug\net8.0-windows\WinFormsApp1.AssemblyInfoInputs.cache
+E:\Web_BanThucPham_NongSanSach\Web_BanThucPhamSach\WinFormsApp1\obj\Debug\net8.0-windows\WinFormsApp1.AssemblyInfo.cs
+E:\Web_BanThucPham_NongSanSach\Web_BanThucPhamSach\WinFormsApp1\obj\Debug\net8.0-windows\WinFormsApp1.csproj.CoreCompileInputs.cache
+E:\Web_BanThucPham_NongSanSach\Web_BanThucPhamSach\WinFormsApp1\obj\Debug\net8.0-windows\WinFormsApp1.dll
+E:\Web_BanThucPham_NongSanSach\Web_BanThucPhamSach\WinFormsApp1\obj\Debug\net8.0-windows\refint\WinFormsApp1.dll
+E:\Web_BanThucPham_NongSanSach\Web_BanThucPhamSach\WinFormsApp1\obj\Debug\net8.0-windows\WinFormsApp1.pdb
+E:\Web_BanThucPham_NongSanSach\Web_BanThucPhamSach\WinFormsApp1\obj\Debug\net8.0-windows\WinFormsApp1.genruntimeconfig.cache
+E:\Web_BanThucPham_NongSanSach\Web_BanThucPhamSach\WinFormsApp1\obj\Debug\net8.0-windows\ref\WinFormsApp1.dll

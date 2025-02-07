@@ -1,0 +1,49 @@
+﻿@model Web_banThucPhamSach.Data.InputWarehouse
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+<div>
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NameProduct)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NameProduct)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NumberInput)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NumberInput)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Total)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Total)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DateIn)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DateIn)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Product)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Product.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Suppliers)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Suppliers.Id)
+        </dd>
+    </dl>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>

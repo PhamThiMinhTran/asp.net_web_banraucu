@@ -1,0 +1,81 @@
+﻿@* @model IEnumerable<Web_banThucPhamSach.Data.User> *@
+@model PaginatedListViewModel<Web_banThucPhamSach.Data.User>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+<div id="Manager-Customer">
+    <div class="container">
+        <h1>Quản lý khách hàng</h1>
+
+        <!-- Button to add new customer -->
+        @*         <button><a asp-action="Create" class="add-btn">Thêm khách hàng</a></button> *@
+        <!-- Customer Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Address</th>
+                    <th>Password</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                    <th>User Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Fullname)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Password)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreateAt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UpdateAt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" style="pointer-events: none;
+    color: gray;">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div id="chuyentrang">
+        <div class="btn-group me-2" role="alert " group>
+            <a class="btn btn_outline-primary @Model.PreviouDisabledAttr" asp-route-pageSize="@Model.PageSize" asp-route-pageIndex="1">First</a>
+            <a class="btn btn_outline-primary @Model.PreviouDisabledAttr" asp-route-pageSize="@Model.PageSize" asp-route-pageIndex="@Model.PrevPageIndex">Prev</a>
+            <a class="btn btn_outline-primary @Model.NextDisabledAttr" asp-route-pageSize="@Model.PageSize" asp-route-pageIndex="@Model.NextPageIndex">Next</a>
+            <a class="btn btn_outline-primary @Model.NextDisabledAttr" asp-route-pageSize="@Model.PageSize" asp-route-pageIndex="@Model.TotalPages">Last</a>
+        </div>
+        <div class="text-primary">Displaying @Model.ItemIndexFrom to @Model.ItemIndexTo of @Model.TotalCount items</div>
+    </div>
+</div>

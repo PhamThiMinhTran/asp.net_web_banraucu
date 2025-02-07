@@ -1,0 +1,259 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bán thực phẩm sạch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link href="~/css/full.css" rel="stylesheet" />
+    <link href="~/css/about.css" rel="stylesheet" />
+    <link href="~/css/profileme.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body data-theme="@ViewData["theme"]">
+    <nav class="navigation">
+        <!-- logo -->
+        <a href="/TrangChu" class="logo"><span>M</span>inhTran</a>
+
+        <!-- menu -->
+        <ul class="menu">
+            <li><a href="/TrangChu" class="active">Trang chủ</a></li>
+            <li><a href="#category">Danh mục sản phẩm</a></li>
+            <li><a href="#popular-product">Sản phẩm</a></li>
+            <li><a asp-area="" asp-controller="TrangChu" asp-action="About">Thông tin</a></li>
+            <li>
+                @if (!User.Identity.IsAuthenticated) // Nếu người dùng chưa đăng nhập
+                {
+                    <a asp-area="" asp-controller="TrangChu" asp-action="Login">Đăng nhập</a>
+                }
+                else // Nếu người dùng đã đăng nhập
+                {
+                    <div class="img-account">
+                        <img src="~/images/client-1.jpg" alt="">
+                    </div>
+                    <div class="dropdown">
+                        <div class="dropbtn">@User.Identity.Name</div>
+                        <div class="dropdown-content">
+                            <a asp-area="" asp-controller="Function" asp-action="Profile" asp-route-id="@User.FindFirst("Id")?.Value">Profile</a>
+                            <a href="/TrangChu/Logout">Logout</a>
+                        </div>
+                    </div>
+                }
+            </li>
+        </ul>
+
+        <div class="right-nav">
+            <a href="#" class="like"><i class="fa-solid fa-heart"></i><span>0</span></a>
+            <a asp-controller="Function" asp-action="Cart" class="cart"><i class="fa-solid fa-cart-plus"></i><span id="cartQuantity">@ViewBag.QuantityCart</span></a>
+        </div>
+    </nav>
+
+    <section id="search2">
+        <div class="search2">
+            <div class="search-banner-text2">
+                <div action="" class="search-box2">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" class="search-input2" placeholder="Tìm kiếm sản phẩm" name="search"
+                           required>
+                    <input type="submit" class="search-btn2" value="Search" name="" id="">
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="main-profile">
+        <div class="sidebar">
+            <div class="account">
+                <div class="img-account">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="name-profile">
+                    <div><h3>Minh Trân</h3></div>
+                    <div class="edit">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </div>
+                </div>
+            </div>
+            <a asp-controller="Function" asp-action="Profile" onclick="showContent('personal-info')">Thông tin cá nhân</a>
+            <a asp-controller="Function" asp-action="AllOrderUser" onclick="showContent('orders')">Đơn hàng</a>
+            <a asp-controller="Function" asp-action="LienKetNganHang" onclick="showContent('permissions')">Liên kết ngân hàng</a>
+            <a href="#" onclick="showContent('setting')">Cài đặt</a>
+        </div>
+
+        <div class="content">
+            @RenderBody()
+            <div id="setting" class="hidden">
+                <h2>Cài đặt</h2>
+                <p>Đây là thông tin cài đặt của bạn.</p>
+            </div>
+        </div>
+    </section>
+        <footer id="footer">
+            <div class="footer-container">
+
+                <!-- logo-container -->
+                <div class="footer-logo">
+                    <a href=""><span>M</span>inhTran</a>
+
+                    <div class="footer-social">
+                        <a href=""><i class="fa-brands fa-facebook"></i></a>
+                        <a href=""><i class="fa-brands fa-twitter"></i></a>
+                        <a href=""><i class="fa-brands fa-google"></i></a>
+                        <a href=""><i class="fa-brands fa-instagram"></i></a>
+
+                    </div>
+                </div>
+
+                <!-- link -->
+                <div class="footer-links">
+                    <strong>Sản phẩm</strong>
+                    <ul>
+                        <li><a href="">Sản phẩm các loại</a></li>
+                        <li><a href="">Gói ưu đãi</a></li>
+                        <li><a href="">Phổ biến</a></li>
+                        <li><a href="">Mới</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <strong>Loại sản phẩm</strong>
+                    <ul>
+                        <li><a href="">Thịt và cá</a></li>
+                        <li><a href="">Hạt giống</a></li>
+                        <li><a href="">Sữa</a></li>
+                        <li><a href="">Nấu ăn</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <strong>Thông tin</strong>
+                    <ul>
+                        <li><a href="">Phone: 19001508</a></li>
+                        <li><a href="">Email: MinhTran@gmail.com</a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+        <section id="chat-box">
+            <div class="chat">
+                <i class="fa-solid fa-message"></i>
+                <p></p>
+            </div>
+            <div class="chat-window hidden">
+                <div class="chat-header">
+                    <h4>Hỗ trợ trực tuyến</h4>
+                    <span class="close-chat">X</span>
+                </div>
+                <div class="chat-body" id="customerChatBody">
+                    <p>Bạn cần hỗ trợ gì không?</p>
+                </div>
+                <div class="chat-footer">
+                    <input type="text" id="customerMessageInput" placeholder="Nhập tin nhắn...">
+                    <button onclick="sendMessageToAdmin()">Gửi</button>
+                </div>
+            </div>
+        </section>
+        
+
+    <script src="~/js/tt_product.js"></script>
+    <script src="~/js/theme.js" asp-append-version="true"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.3/signalr.min.js"></script>
+    <script>
+        function showContent(id) {
+            var contents = document.querySelectorAll('.content > div');
+            contents.forEach(function (content) {
+                content.classList.add('hidden');
+            });
+            document.getElementById(id).classList.remove('hidden');
+        }
+    </script>
+    <script>
+        // Hàm cập nhật số lượng giỏ hàng qua AJAX
+        function updateCartQuantity() {
+            $.ajax({
+                url: '@Url.Action("BagCart", "Function")',
+                type: 'GET',
+                success: function (result) {
+                    $('#cartQuantity').text(result.quantity);  // Thay đổi số lượng giỏ hàng
+                },
+                error: function () {
+                    console.log("Lỗi khi tải số lượng giỏ hàng");
+                }
+            });
+        }
+
+        // Gọi updateCartQuantity khi trang tải
+        $(document).ready(function () {
+            updateCartQuantity();
+        });
+
+        // Gọi updateCartQuantity khi sản phẩm được thêm vào giỏ hàng
+        $('body').on('click', '.add-to-cart-button', function () {
+            updateCartQuantity();
+        });
+
+        //AJAX chat
+        document.querySelector('.chat').addEventListener('click', function () {
+            const chatWindow = document.querySelector('.chat-window');
+            if (chatWindow.style.display === 'none' || chatWindow.classList.contains('hidden')) {
+                chatWindow.style.display = 'block';
+                chatWindow.classList.remove('hidden');
+            } else {
+                chatWindow.style.display = 'none';
+                chatWindow.classList.add('hidden');
+            }
+        });
+
+        document.querySelector('.close-chat').addEventListener('click', function () {
+            const chatWindow = document.querySelector('.chat-window');
+            chatWindow.style.display = 'none';
+            chatWindow.classList.add('hidden');
+        });
+
+
+        //JS chat client từ khách hàng.
+        // Khởi tạo kết nối SignalR
+        const connection = new signalR.HubConnectionBuilder().withUrl("/chathub").build();
+
+        connection.start().then(() => {
+            // Lấy userId từ claim của khách hàng khi đăng nhập
+            const userId = "@User.FindFirst("UserId")?.Value"; // Cách lấy userId từ claim
+            connection.invoke("JoinCustomerGroup", userId).catch(err => console.error(err.toString())); // Gọi JoinCustomerGroup
+        }).catch(err => console.error(err.toString()));
+
+
+
+        // Hàm để hiển thị tin nhắn của khách hàng lên giao diện
+        function sendMessageToAdmin() {
+            const message = document.getElementById("customerMessageInput").value;
+            const userId = '@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value';
+            if (message.trim() === "") return; // Kiểm tra nếu tin nhắn rỗng
+
+            // Hiển thị tin nhắn của khách hàng trên giao diện
+            const messageElement = document.createElement("p");
+            messageElement.classList.add("sent");
+            messageElement.innerText = message;
+            document.getElementById("customerChatBody").appendChild(messageElement);
+
+            // Gửi tin nhắn đến admin
+            connection.invoke("SendMessage", userId, message).catch(err => console.error(err.toString()));
+
+            // Xóa nội dung input sau khi gửi
+            document.getElementById("customerMessageInput").value = "";
+        }
+
+        // Xử lý nhận tin nhắn từ admin và hiển thị trên giao diện khách hàng
+        connection.on("ReceiveMessage", (userId, message) => {
+            const messageElement = document.createElement("p");
+            messageElement.classList.add("received");
+            messageElement.innerText = message;
+            document.getElementById("customerChatBody").appendChild(messageElement);
+        });
+    </script>
+</body>
+</html>

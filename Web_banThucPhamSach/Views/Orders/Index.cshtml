@@ -1,0 +1,224 @@
+﻿@* @model IEnumerable<Web_banThucPhamSach.Data.Order> *@
+@model PaginatedListViewModel<Web_banThucPhamSach.Data.Order>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+<style>
+    /*-------------- drop down-----------*/
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-toggle {
+        padding: 10px 15px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+    }
+
+        .dropdown-toggle:hover {
+            background-color: #5a6268;
+        }
+
+    /* Ẩn menu dropdown mặc định */
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        background-color: white;
+        min-width: 160px;
+        border-radius: 10px;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    /* Hiển thị menu khi hover vào dropdown */
+    .dropdown:hover .dropdown-menu {
+        display: block;
+        border-radius: 10px;
+    }
+
+    /* Style cho các item trong menu */
+    .dropdown-menu a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+        .dropdown-menu a:hover {
+            background-color: #ddd;
+        }
+
+</style>
+<div id="order-management">
+    <h1>Quản lý đơn hàng và thanh toán</h1>
+
+    <!-- Đơn hàng đang xử lý -->
+    <div class="pending-orders">
+        <h2>Đơn hàng đang xử lý</h2>
+        <table class="table-wrapper">
+            <thead>
+                <tr>
+                    <th>Mã Đơn Hàng</th>
+                    <th>Khách Hàng</th>
+                    <th>Địa chỉ</th>
+                    <th>Sản Phẩm</th>
+                    <th>Số lượng (Kg)</th>
+                    <th>Ngày Đặt</th>
+                    <th>
+                        <div class="dropdown">
+                            <div class="btn btn-secondary dropdown-toggle" type="button" id="paymentMethodDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                Hình thức thanh toán
+                            </div>
+                            <ul class="dropdown-menu" aria-labelledby="paymentMethodDropdown">
+                                <li><a class="dropdown-item" asp-action="Index" asp-route-accountType="All">Tất cả</a></li>
+                                <li><a class="dropdown-item" asp-action="Index" asp-route-accountType="domestic">Thẻ nội địa</a></li>
+                                <li><a class="dropdown-item" asp-action="Index" asp-route-accountType="international">Thẻ quốc tế</a></li>
+                                <li><a class="dropdown-item" asp-action="Index" asp-route-accountType="debt">Thẻ nợ</a></li>
+                                <li><a class="dropdown-item" asp-action="Index" asp-route-paymentMethod="Thanh toán khi nhận hàng">Thanh toán khi nhận hàng</a></li>
+                            </ul>
+                        </div>
+                    </th>
+                    <th>Ghi chú</th>
+                    <th>
+                        <div class="dropdown">
+                            <div class="btn btn-secondary dropdown-toggle" type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                Trạng thái đơn hàng
+                            </div>
+                            <ul class="dropdown-menu" aria-labelledby="statusDropdown">
+                                <li><a class="dropdown-item" asp-action="Index" asp-route-status="All">Tất cả</a></li>
+                                <li><a class="dropdown-item" asp-action="Index" asp-route-status="Pending">Chưa duyệt</a></li>
+                                <li><a class="dropdown-item" asp-action="Index" asp-route-status="Approved">Đã duyệt</a></li>
+                                <li><a class="dropdown-item" asp-action="Index" asp-route-status="Completed">Hoàn thành</a></li>
+                            </ul>
+                        </div>
+                    </th>
+                    <th>Hành Động</th>
+                    <th>Duyệt đơn</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Fullname)
+                        </td>
+                        <td>
+                            <span class="text-truncate" title="@item.Address">@item.Address</span>
+                        </td>
+                        <td>
+                            @foreach (var detail in item.OrderDetails)
+                            {
+                                <span>@detail.NumberProducts</span>
+                            }
+                        </td>
+                        <td>
+                            @foreach (var detail in item.OrderDetails)
+                            {
+                                <span class="text-truncate" title="@detail.Product.Title">@detail.Product.Title</span>
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaymentMethod)
+                            @* @{
+                                var paymentAccount = item.User.BankAccounts
+                                .FirstOrDefault(b => b.AccountNumber == item.PaymentMethod);
+                                if (paymentAccount != null)
+                                {
+                                    <span>@paymentAccount.BankName</span>
+                                    @if (paymentAccount.AccountType == "domestic")
+                                    {
+                                        <span>(Thẻ nội địa)</span>
+                                    }
+                                    else if (paymentAccount.AccountType == "international")
+                                    {
+                                        <span>(Thẻ quốc tế)</span>
+                                    }
+                                    else if (paymentAccount.AccountType == "debt")
+                                    {
+                                        <span>(Thẻ nợ)</span>
+                                    }
+                                }
+                            } *@
+                            @{
+                                if (item.User != null && item.User.BankAccounts != null)
+                                {
+                                    var paymentAccount = item.User.BankAccounts
+                                    .FirstOrDefault(b => b.AccountNumber == item.PaymentMethod);
+                                    if (paymentAccount != null)
+                                    {
+                                        <span>@paymentAccount.BankName</span>
+                                        @if (paymentAccount.AccountType == "domestic")
+                                        {
+                                            <span>(Thẻ nội địa)</span>
+                                        }
+                                        else if (paymentAccount.AccountType == "international")
+                                        {
+                                            <span>(Thẻ quốc tế)</span>
+                                        }
+                                        else if (paymentAccount.AccountType == "debt")
+                                        {
+                                            <span>(Thẻ nợ)</span>
+                                        }
+                                    }
+                                }
+                            }
+                        </td>
+                        <td>
+                            <span class="text-truncate" title="@item.Note">@item.Note</span>
+                            @* @Html.DisplayFor(modelItem => item.Note) *@
+                        </td>
+                        <td>
+                            @if (item.Status == 1)
+                            {
+                                <span>Đã duyệt</span>
+                            }
+                            else if (item.Status == 0)
+                            {
+                                <span>Chờ duyệt</span>
+                            }
+                            else if (item.Status == 2)
+                            {
+                                <span>Hoàn thành</span>
+                            }
+
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+
+                        <td>
+                            <form asp-action="ApproveOrder" method="post" class="from_duyet_don" style="width: 100px; padding: 0px">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <button type="submit" class="btn_duyetdon" style=":hover:color: red;">Duyệt đơn</button>
+                            </form>
+                            @*  <a asp-action="ApproveOrder" asp-route-id="@item.Id" method="post" >Duyệt đơn</a> *@ |
+                            <a asp-action="" asp-route-id="@item.Id">Nhắn tin</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div id="chuyentrang">
+        <div class="btn-group me-2" role="alert " group>
+            <a class="btn btn_outline-primary @Model.PreviouDisabledAttr" asp-route-pageSize="@Model.PageSize" asp-route-pageIndex="1">First</a>
+            <a class="btn btn_outline-primary @Model.PreviouDisabledAttr" asp-route-pageSize="@Model.PageSize" asp-route-pageIndex="@Model.PrevPageIndex">Prev</a>
+            <a class="btn btn_outline-primary @Model.NextDisabledAttr" asp-route-pageSize="@Model.PageSize" asp-route-pageIndex="@Model.NextPageIndex">Next</a>
+            <a class="btn btn_outline-primary @Model.NextDisabledAttr" asp-route-pageSize="@Model.PageSize" asp-route-pageIndex="@Model.TotalPages">Last</a>
+        </div>
+        <div class="text-primary">Displaying @Model.ItemIndexFrom to @Model.ItemIndexTo of @Model.TotalCount items</div>
+    </div>
+</div>

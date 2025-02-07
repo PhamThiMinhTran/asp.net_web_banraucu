@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Update="DataSets\dsProduct.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>dsProduct.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="DataSets\dsStaff.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>dsStaff.xsd</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="DataSets\dsProduct.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsProduct.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="DataSets\dsStaff.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsStaff.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>

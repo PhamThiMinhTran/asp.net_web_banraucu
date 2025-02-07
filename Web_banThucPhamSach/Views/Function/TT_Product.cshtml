@@ -1,0 +1,346 @@
+﻿@model Web_banThucPhamSach.Data.Product
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_TrangChu.cshtml";
+    var imagePaths = Model.Image?.Split(',');
+}
+<section id="search-banner1">
+    <div action="" class="search-box1">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" class="search-input1" placeholder="Tìm kiếm sản phẩm" name="search" required>
+        <input type="submit" class="search-btn1" value="Search" name="" id="">
+    </div>
+</section>
+<!-- Product -->
+<section id="product1">
+    <div class="container_heading1">
+        <div class="product-top1">
+            <a href="#">
+                <p><i class="fa-solid fa-angle-left"></i>Trở về</p>
+            </a>
+        </div>
+
+        <div class="product-content1">
+            <div class="product-content-left1">
+                <div class="big-img-right1">
+                   @*  <img src="~/images/patato.png" alt="Khoai tây" class="active">
+                    <img src="~/images/Potato1.png" alt="Khoai tây">
+                    <img src="~/images/potato2.jpg" alt="Khoai tây">
+                    <img src="~/images/potato3.jpg" alt="Khoai tây">
+                    <img src="~/images/potato4.jpg" alt="Khoai tây"> *@
+                    @if (imagePaths != null && imagePaths.Length > 0)
+                    {
+                        foreach (var imagePath in imagePaths)
+                        {
+                            <img src="@Url.Content(imagePath)" alt="@Model.Title" class="active"/>
+                        }
+                    }
+                </div>
+                <div class="move-img">
+                    <div class="prev1"><i class="fa-solid fa-caret-left"></i></div>
+                    <div class="next1"><i class="fa-solid fa-caret-right"></i></div>
+                </div>
+            </div>
+            <div class="product-content-right1">
+                <div class="product-name1">
+                    <h1>@Model.Title</h1>
+                    <div class="p-img">
+                        <div class="p">
+                            <p class="price1">Giá: @Model.Price<sup>đ</sup></p>
+                            <p class="price_real1">@Model.Discount<sup>đ</sup> </p>
+                        </div>
+                        <div class="img-giaodich">
+                            <img src="~/images/giaohang.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="quantity1">
+                    <div class="quatity-show1">
+                        <button>350gam</button>
+                        <button>500gam</button>
+                        <button>1000g</button>
+                        <button>none</button>
+                    </div>
+                </div>
+                <div class="number1">
+                    <button class="down-number1">-</button>
+                    <input type="int" class="quantity_product1" placeholder="Số lượng">
+                    <button class="up-number1">+</button>
+                </div>
+                <div class="buy1">
+                   @*  <button class="buy-product1">Mua</button> *@
+                    <button class="buy-product1" type="submit">
+                        <a asp-controller="Function" asp-action="ThanhToan" class="pay" style="color: black">
+                            Mua
+                        </a>
+                    </button>
+                   @*  <button class="add-cart1">Thêm vào giỏ hàng</button> *@
+                    <button class="add-cart1">
+                        <a asp-controller="Function" asp-action="AddToCart" asp-route-productid="@Model.Id" class="cart-btn" style="color: black">
+                        <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+                        </a>
+                    </button>
+                </div>
+                <div class="introduction1">
+                    <p>Ăn không ngon, 1 đổi 1</p>
+                    <p>Nguồn gốc: Nhập từ An giang</p>
+                </div>
+                <div class="similar1"><a href="#popular-product-similar">Sản phẩm tương tự</a></div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- section-Introduction-product -->
+<section id="introduction-product-full">
+    <div class="introduction-product-full-left">
+        <div class="description-heading">
+            <h2>Mô tả sản phẩm</h2>
+        </div>
+        <div class="description-product">
+            <h3>Thông tin sản phẩm</h3>
+            @* <p> - Quy cách: 1kg </p>
+            <p> - Xuất xứ: Việt Nam </p>
+            <p> - Tiêu chuẩn chất lượng: trái cây sạch</p>
+            <p>
+                - Đặc điểm nổi bật: Quả hình hơi vuông, vỏ nhẵn mỏng, màu sắc vàng tươi bóng đẹp, thịt quả màu
+                vàng
+                nhạt. Thịt quả giòn, quả không thể ăn sống, phải nấu chính, không được ăn những quả đã có dấu
+                hiệu
+                mọc mầm
+            </p>
+            <p> - Tên tiếng anh: Potato</p>
+            <p> - Dinh dưỡng: (tính trên 100g)</p>
+            <p> Năng lượng: 321kJ (77 kcal)</p>
+            <p> Tinh bột: 15.44g</p>
+            <p> Chất xơ: 2.2g</p>
+            <p> Chất béo: 0.1g</p>
+            <p> Protein: 2g</p>
+            <p>
+                - Chú ý: Khoai tây mọc mầm chứa nhiều độc tố có hại được biết đến là các glycoalkaloid, phổ biến
+                nhất là thiên tiên tử, cây thuốc lá, cà tím và cà chua. Độc tố ảnh hưởng đến hệ thần kinh, gây
+                ra sự
+                yếu ớt và nhầm lẫn
+            </p>
+            <p>
+                - Lưu trữ: Các cơ sở dùng để lưu trữ củ khoai tây được thiết kế cẩn thận giữ cho khoai tây sống
+                và
+                làm chậm quá trình phân hủy, trong đó bao gồm sự phân hủy tinh bột. Địa điểm lưu trữ có đặc điểm
+                tối, thông thoáng và nhiệt độ lưu trữ lâu dài khoảng 4 °C (39 °F). Đối với lưu trữ ngắn hạn
+                trước
+                khi nấu, nhiệt độ khoảng 7 °C (45 °F) đến 10 °C (50 °F) là phù hợp. Nhiệt độ dưới 4 °C, xảy ra
+                quá
+                trình biến đổi tinh bột trong đường, làm thay đổi hương vị và chất lượng nấu ăn và làm tăng chất
+                acrylamide khi nấu chín, đặc biệt trong các món ăn chiên.
+            </p> *@
+            <p>@Model.Description</p>
+            <h3>Thực đơn</h3>
+            @* <p>Khoai tây chiên</p>
+            <p>Khoai dầm</p>
+            <p>...</p>
+            <p>Cách chế biến: Rựa sạch khoai tây, sau đó thực hiện gọt vỏ cho sạch, bắt đầu chế biến khoai tây</p> *@
+            <p>@Model.DescriptionDish</p>
+            <label class="Xemthem">Xem thêm <input type="checkbox" class="xemthem-check"></label>
+        </div>
+    </div>
+</section>
+<!-- comment-customer -->
+<section id="comment-with-customer">
+    <div class="comment-heading">
+        <h3>Đánh giá sản phẩm</h3>
+        <div class="comment">
+            <div class="filter-star">
+                <div class="had-star">
+                    <p>4.9 <span>trên 5</span></p>
+                    <ul>
+                        <li><i class="fa-solid fa-star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="filter-button">
+                <button>Tất cả</button>
+                <button>5 sao</button>
+                <button>4 sao</button>
+                <button>3 sao</button>
+                <button>2 sao</button>
+                <button>1 sao</button>
+                <button>Có bình luận</button>
+                <button>Có hình ảnh/video</button>
+            </div>
+        </div>
+        <div class="comment-view">
+            <div class="client-box-container">
+                <div class="client-box">
+
+                    <div class="client-profile">
+                        <img src="~/images/client-1.jpg" alt="client">
+                        <div class="profile-text">
+                            <strong>MinhTran1</strong>
+                            <span>CEO</span>
+                        </div>
+                    </div>
+                    <!-- Rating -->
+                    <div class="rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+
+                    <!-- comment -->
+                    <p>
+                        Sản phẩm tươi ngon, giao hàng nhanh cũng như dịch vụ tốt. Tôi rất ưng ý với những gì đã trãi
+                        nghiệm
+                        tại cửa hàng
+                    </p>
+                    <i class="fa-solid fa-thumbs-up"></i>
+                </div>
+
+                <div class="client-box">
+
+                    <div class="client-profile">
+                        <img src="~/images/client-2.jpg" alt="client">
+                        <div class="profile-text">
+                            <strong>MinhTran2</strong>
+                            <span>CEO</span>
+                        </div>
+                    </div>
+
+                    <!-- Rating -->
+                    <div class="rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <!-- comment -->
+                    <p>
+                        Trái cây ngọt cũng như tươi, sản phẩm được bao bộc cẩn thận, giỏ trái cây đủ các trái cây và
+                        không có
+                        hiện tượng nhồi giấy cho đầy giỏ
+                    </p>
+                    <i class="fa-solid fa-thumbs-up"></i>
+                </div>
+
+                <div class="client-box">
+
+                    <div class="client-profile">
+                        <img src="~/images/client-3.jpg" alt="client">
+                        <div class="profile-text">
+                            <strong>MinhTran3</strong>
+                            <span>CEO</span>
+                        </div>
+                    </div>
+
+                    <!-- Rating -->
+                    <div class="rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <!-- comment -->
+                    <p>Yêu shop, dịch vụ và trả lời thắc mắc rất rõ ràng. Sản phẩm tươi ngon, giống hình.</p>
+                    <i class="fa-solid fa-thumbs-up"></i>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- end-comment -->
+<section id="popular-product-similar">
+    <div class="product-headding1">
+        <h3>Sản phẩm tương tự</h3>
+    </div>
+
+    <div class="product-container">
+        <div class="product-box">
+            <img src="~/images/apple.png" alt="Táo đỏ">
+            <strong>Táo đỏ</strong>
+            <span class="quantity">1 KG</span>
+            <span class="price">5000đ</span>
+
+            <a href="" class="cart-btn">
+                <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+            </a>
+
+            <a href="" class="like-btn"><i class="fa-regular fa-heart"></i></a>
+        </div>
+
+        <div class="product-box">
+            <img src="~/images/chili.png" alt="Ớt">
+            <strong>Ớt cay</strong>
+            <span class="quantity">1 KG</span>
+            <span class="price">2000đ</span>
+
+            <a href="" class="cart-btn">
+                <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+            </a>
+
+            <a href="" class="like-btn"><i class="fa-regular fa-heart"></i></a>
+        </div>
+
+        <div class="product-box">
+            <img src="~/images/onion.png" alt="Tỏi">
+            <strong>Tỏi</strong>
+            <span class="quantity">1 KG</span>
+            <span class="price">3000đ</span>
+
+            <a href="" class="cart-btn">
+                <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+            </a>
+
+            <a href="" class="like-btn"><i class="fa-regular fa-heart"></i></a>
+        </div>
+
+        <div class="product-box">
+            <img src="~/images/patato.png" alt="Khoai tây">
+            <strong>Khoai tây</strong>
+            <span class="quantity">1 KG</span>
+            <span class="price">10000đ</span>
+
+            <a href="" class="cart-btn">
+                <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+            </a>
+
+            <a href="" class="like-btn"><i class="fa-regular fa-heart"></i></a>
+        </div>
+
+        <div class="product-box">
+            <img src="~/images/tamato.png" alt="Cà chua">
+            <strong>Cà chua</strong>
+            <span class="quantity">1 KG</span>
+            <span class="price">5000đ</span>
+
+            <a href="" class="cart-btn">
+                <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+            </a>
+
+            <a href="" class="like-btn"><i class="fa-regular fa-heart"></i></a>
+        </div>
+
+        <div class="product-box">
+            <img src="~/images/garlic.png" alt="Tỏi tép">
+            <strong>Tỏi tép</strong>
+            <span class="quantity">1 KG</span>
+            <span class="price">7000đ</span>
+
+            <a href="" class="cart-btn">
+                <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+            </a>
+
+            <a href="" class="like-btn"><i class="fa-regular fa-heart"></i></a>
+        </div>
+    </div>
+    <div class="all-product"><a href="Category.html" class="all-product-link">Xem thêm</a></div>
+</section>
+<script src="~/js/TT_Product.js"></script>

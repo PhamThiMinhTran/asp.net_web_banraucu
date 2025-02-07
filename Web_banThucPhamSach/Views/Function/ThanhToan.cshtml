@@ -1,0 +1,227 @@
+﻿@* @model List<Web_banThucPhamSach.Data.Cart> *@
+    @model Web_banThucPhamSach.Models.CheckoutViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh Toán</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/full.css">
+</head>
+
+<body>
+    <nav class="navigation">
+        <!-- logo -->
+        <a href="/TrangChu" class="logo"><span>M</span>inhTran</a>
+
+        <!-- menu -->
+        <ul class="menu">
+            <li><a href="/TrangChu" class="active">Trang chủ</a></li>
+            <li><a href="#category">Danh mục sản phẩm</a></li>
+            <li><a href="#popular-product">Sản phẩm</a></li>
+            <li><a asp-area="" asp-controller="TrangChu" asp-action="About">Thông tin</a></li>
+            <li>
+                @if (!User.Identity.IsAuthenticated) // Nếu người dùng chưa đăng nhập
+                {
+                    <a asp-area="" asp-controller="TrangChu" asp-action="Login">Đăng nhập</a>
+                }
+                else // Nếu người dùng đã đăng nhập
+                {
+                    <div class="img-account">
+                        <img src="~/images/client-1.jpg" alt="">
+                    </div>
+                    <div class="dropdown">
+                        <div class="dropbtn">@User.Identity.Name</div>
+                        <div class="dropdown-content">
+                            <a asp-area="" asp-controller="Function" asp-action="Profile" asp-route-id="@User.FindFirst("Id")?.Value">Profile</a>
+                            <a href="/TrangChu/Logout">Logout</a>
+                        </div>
+                    </div>
+                }
+            </li>
+        </ul>
+
+        <div class="right-nav">
+            <a href="" class="like"><i class="fa-solid fa-heart"></i><span>0</span></a>
+            <a asp-controller="Function" asp-action="Cart" class="cart"><i class="fa-solid fa-cart-plus"></i><span>ViewBag.QuantityCart</span></a>
+        </div>
+    </nav>
+    @if (Model.CartItems != null && Model.CartItems.Any())
+    {
+        <section id="Pay-Main">
+            <div class="Pay-all-layer">
+                <div class="Logo-pay">
+                    <div class="logo-pay">
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                        <span>Thanh toán</span>
+                    </div>
+                </div>
+                <div class="Address">
+                    <div class="address-heading">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <p>Địa chỉ nhận hàng</p>
+                    </div>
+                    <div class="address-full">
+                        <div class="name-address-user">
+                            <p>@User.Identity.Name</p><span>@User.FindFirst("PhoneNumber")?.Value</span>
+                        </div>
+                        <div class="name-address-main">
+                            <p>
+                                @User.FindFirst("Address")?.Value
+                            </p>
+                        </div>
+                        <div>
+                            <p>Mặc định</p>
+                            <a href="#">Thay đổi</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="Pay-product">
+                    <div class="Pay-product-heading">
+                        <div>Sản phẩm</div>
+                        <div>
+                            <p>Đơn giá</p>
+                            <p>Số lượng</p>
+                            <p>Thành tiền</p>
+                        </div>
+                    </div>
+                    @foreach (var item in Model.CartItems)
+                    {
+                        <div class="Pay-product-main">
+                            <div class="Pay-product-main-left">
+                                <div class="Product-information-short">
+                                    <div><img src="@Url.Content(item.Product.Image.Split(',')[0])" alt="@item.Product.Title"></div>
+                                    <div class="brief-information">
+                                        <div class="name_product"><p>@item.Product.Title</p></div>
+                                        <p>Bao ngon, không ngon đổi hàng ngay</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="Pay-product-main-right">
+                                <p>@item.Product.Price<sup>đ</sup></p>
+                                <p>@item.Quantity</p>
+                                <p>@(item.Quantity * item.Product.Price)<sup>đ</sup></p>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="Voucher-shop">
+                    <p><a href="">Chọn voucher của shop</a></p>
+                </div>
+                <div class="end-pay-product">
+                    <div class="note-customer">
+                        <label for="note">Lời nhắn:</label>
+                        <input type="text" name="note" id="note" placeholder="   Lưu ý cho người bán..." oninput="updateNote()">
+                    </div>
+                    <div class="total-pay">
+                        <div class="payment-method">
+                            <div>Chọn phương thức thanh toán</div>
+                            <select id="AccountType" onchange="showBankAccounts(this.value)">
+                                <option value="">--Chọn phương thức--</option>
+                                <option value="domestic">Thẻ nội địa</option>
+                                <option value="international">Thẻ quốc tế</option>
+                                <option value="cash_on_delivery">Thanh toán khi nhận hàng</option>
+                                <option value="debt">Trả sau</option>
+                            </select>
+                        </div>
+                        <div id="BankAccounts" style="display:none;">
+                            <h4>Chọn tài khoản ngân hàng</h4>
+                            <div id="domesticAccounts" style="display:none;">
+                                @foreach (var account in Model.User.BankAccounts.Where(a => a.AccountType == "domestic"))
+                                {
+                                    <div class="account-item" onclick="selectAccount('@account.AccountNumber')">
+                                        @account.BankName - @account.AccountNumber
+                                    </div>
+                                }
+                            </div>
+                            <div id="internationalAccounts" style="display:none;">
+                                @foreach (var account in Model.User.BankAccounts.Where(a => a.AccountType == "international"))
+                                {
+                                    <div class="account-item" onclick="selectAccount('@account.AccountNumber')">
+                                        @account.BankName - @account.AccountNumber
+                                    </div>
+                                }
+                            </div>
+                            <div id="debtAccounts" style="display:none;">
+                                @foreach (var account in Model.User.BankAccounts.Where(a => a.AccountType == "debt"))
+                                {
+                                    <div class="account-item" onclick="selectAccount('@account.AccountNumber')">
+                                        @account.BankName - @account.AccountNumber
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <form asp-controller="Function" asp-action="CreateOrder" method="post" onsubmit="return confirmPayment();">
+                        <input type="hidden" name="PaymentMethod" id="PaymentMethodInput">
+                        <input type="hidden" name="note" id="noteInput">
+                        <button type="submit" class="pay">Thanh toán</button>
+                    </form>
+                </div>
+        </section>
+    }
+    else
+    {
+        <p>Không có sản phẩm trong giỏ hàng</p>
+    }
+    <script>
+        function updateNote() {
+            var noteValue = document.getElementById('note').value;
+            document.getElementById('noteInput').value = noteValue;
+        }
+        function showBankAccounts(accountType) {
+            document.getElementById('BankAccounts').style.display = 'none';
+            document.getElementById('domesticAccounts').style.display = 'none';
+            document.getElementById('internationalAccounts').style.display = 'none';
+            document.getElementById('debtAccounts').style.display = 'none';
+
+            if (accountType === "domestic" || accountType === "international" || accountType === "debt") {
+                var hasAccount = document.getElementById(accountType + 'Accounts').children.length > 0;
+
+                if (hasAccount) {
+                    document.getElementById('BankAccounts').style.display = 'block';
+                    document.getElementById(accountType + 'Accounts').style.display = 'block';
+                } else {
+                    // Chuyển hướng đến trang liên kết thẻ nếu không có thẻ nào được lưu
+                    alert("Bạn chưa có thẻ " + (accountType === "domestic" ? "nội địa" : accountType === "international" ? "quốc tế" : "ghi nợ") + ". Vui lòng liên kết thẻ.");
+                    window.location.href = "/Function/LienKetNganHang"; // Đổi đường dẫn phù hợp với trang liên kết thẻ của bạn
+                }
+            }
+        }
+
+        function selectAccount(accountNumber) {
+            document.getElementById('PaymentMethodInput').value = accountNumber;
+            alert('Tài khoản đã được chọn: ' + accountNumber);
+        }
+
+        function confirmPayment() {
+            var method = document.getElementById('AccountType').value;
+            var paymentMethodInput = document.getElementById('PaymentMethodInput').value;
+
+            // Kiểm tra nếu chọn phương thức "Thanh toán khi nhận hàng"
+            if (method === "cash_on_delivery") {
+                document.getElementById('PaymentMethodInput').value = "Thanh toán khi nhận hàng"; // Gán giá trị cho phương thức thanh toán khi nhận hàng
+                return true; // Cho phép gửi form để tạo đơn hàng
+            }
+
+            // Nếu chọn các phương thức khác, kiểm tra xem đã chọn tài khoản ngân hàng chưa
+            if (paymentMethodInput === "") {
+                alert('Vui lòng chọn tài khoản ngân hàng hoặc liên kết thẻ trước khi xác nhận.');
+                return false; // Ngăn không cho gửi form
+            }
+
+            return true; // Cho phép gửi form nếu đã chọn phương thức thanh toán hợp lệ
+        }
+    </script>
+</body>
+
+</html>

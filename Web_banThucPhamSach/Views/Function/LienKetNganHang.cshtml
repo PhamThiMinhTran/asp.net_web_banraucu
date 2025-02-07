@@ -1,0 +1,186 @@
+﻿@model List<Web_banThucPhamSach.Data.BankAccount>
+@{
+    ViewData["Title"] = "LienKetNganHang";
+    Layout = "~/Views/Shared/_Profile.cshtml";
+}
+
+<div id="permissions">
+    <h2>Liên kết tài khoản</h2>
+    <div class="LienKetTaiKhoan">
+        <div class="LienKetTaiKhoan_TaiKhoan">
+            <div class="TaiKhoan_Box">
+                <a href="#">
+                    <i class="fa-solid fa-money-bill-1"></i>
+                    <p>Số dư tài khoản</p>
+                </a>
+            </div>
+            <div class="TaiKhoan_Box">
+                <a href="#">
+                    <i class="fa-solid fa-piggy-bank"></i>
+                    <p>Tiết kiệm</p>
+                </a>
+            </div>
+            <div class="TaiKhoan_Box">
+                <a href="#">
+                    <i class="fa-solid fa-building-columns"></i>
+                    <p>Liên kết ngân hàng</p>
+                </a>
+            </div>
+        </div>
+        <div class="ThongTinNganHang">
+            <!-- Phần Liên kết ngân hàng nội địa -->
+            <div class="NganHangNoiDia">
+                <a href="#" class="bank-link" data-bank-type="domestic">
+                    <i class="fa-solid fa-building-columns"></i>
+                    <p>Liên kết ngân hàng</p>
+                </a>
+                <div id="bank-dropdown-domestic" class="dropdown">
+                    @if (Model != null && Model.Any(a => a.AccountType == "domestic"))
+                    {
+                        foreach (var account in Model.Where(a => a.AccountType == "domestic"))
+                            {
+                            <div class="dropdown-item" data-bank="@account.BankName">
+                                @account.AccountName - @account.AccountNumber - @account.BankName
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="dropdown-item">Chưa có tài khoản nào được lưu</div>
+                    }
+                    <div class="dropdown-item" data-bank="Vietcombank">Vietcombank</div>
+                    <div class="dropdown-item" data-bank="Techcombank">Techcombank</div>
+                    <div class="dropdown-item" data-bank="Agribank">Agribank</div>
+                    <div class="dropdown-item" data-bank="BIDV">BIDV</div>
+                </div>
+                <form class="account-info" id="form-domestic" asp-action="LienKetNganHang" asp-controller="Function" method="post">
+                    <input type="hidden" name="UserId" value="@ViewBag.UserId" />
+
+                    <input type="hidden" name="AccountType" value="domestic" />
+                    <input type="hidden" name="BankName" id="bank-name-domestic" />
+
+                    <label for="account-number-domestic">Số tài khoản:</label>
+                    <input type="text" id="account-number-domestic" name="AccountNumber" placeholder="Nhập số tài khoản" required />
+
+                    <label for="account-name-domestic">Tên tài khoản:</label>
+                    <input type="text" id="account-name-domestic" name="AccountName" placeholder="Nhập tên tài khoản" required />
+
+                    <button type="submit">Lưu thông tin</button>
+                </form>
+            </div>
+
+            <!-- Phần Liên kết ngân hàng quốc tế -->
+            <div class="NganHangQuocTe">
+                <a href="#" class="bank-link" data-bank-type="international">
+                    <i class="fa-brands fa-paypal"></i>
+                    <p>Liên kết ngân hàng quốc tế</p>
+                </a>
+                <div id="bank-dropdown-international" class="dropdown">
+                    @if (Model != null && Model.Any(a => a.AccountType == "international"))
+                    {
+                        foreach (var account in Model.Where(a => a.AccountType == "international"))
+                        {
+                            <div class="dropdown-item" data-bank="@account.BankName">
+                                @account.AccountName - @account.AccountNumber - @account.BankName
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="dropdown-item">Chưa có tài khoản nào được lưu</div>
+                    }
+                    <div class="dropdown-item" data-bank="Paypal">Paypal</div>
+                </div>
+                <form class="account-info" id="form-international" asp-action="LienKetNganHang" asp-controller="Function" method="post">
+                    <input type="hidden" name="UserId" value="@ViewBag.UserId" />
+                    <input type="hidden" name="AccountType" value="international" />
+                    <input type="hidden" name="BankName" id="bank-name-international" />
+
+                    <label for="account-number-international">Số tài khoản:</label>
+                    <input type="text" id="account-number-international" name="AccountNumber" placeholder="Nhập số tài khoản" required />
+
+                    <label for="account-name-international">Tên tài khoản:</label>
+                    <input type="text" id="account-name-international" name="AccountName" placeholder="Nhập tên tài khoản" required />
+
+                    <button type="submit">Lưu thông tin</button>
+                </form>
+            </div>
+
+            <!-- Phần Ghi nợ -->
+            <div class="GhiNo">
+                <a href="#" class="bank-link" data-bank-type="debt">
+                    <i class="fa-solid fa-money-bills"></i>
+                    <p>Ghi nợ</p>
+                </a>
+                <div id="bank-dropdown-debt" class="dropdown">
+                    @if (Model != null && Model.Any(a => a.AccountType == "debt"))
+                    {
+                        foreach (var account in Model.Where(a => a.AccountType == "debt"))
+                        {
+                            <div class="dropdown-item" data-bank="@account.BankName">
+                                @account.AccountName - @account.AccountNumber - @account.BankName
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="dropdown-item">Chưa có tài khoản ghi nợ nào được lưu</div>
+                    }
+                    <div class="dropdown-item" data-bank="Vietcombank">Vietcombank</div>
+                    <div class="dropdown-item" data-bank="Techcombank">Techcombank</div>
+                    <div class="dropdown-item" data-bank="Agribank">Agribank</div>
+                    <div class="dropdown-item" data-bank="BIDV">BIDV</div>
+                </div>
+                <form id="form-debt" class="account-info" asp-action="LienKetNganHang" asp-controller="Function" method="post">
+                    <input type="hidden" name="UserId" value="@ViewBag.UserId" />
+                    <input type="hidden" name="AccountType" value="debt" />
+                    <input type="hidden" name="BankName" id="bank-name-debt" />
+
+                    <label for="account-number-debt">Số tài khoản:</label>
+                    <input type="text" id="account-number-debt" name="AccountNumber" placeholder="Nhập số tài khoản" required />
+
+                    <label for="account-name-debt">Tên tài khoản:</label>
+                    <input type="text" id="account-name-debt" name="AccountName" placeholder="Nhập tên tài khoản" required />
+
+                    <button type="submit">Lưu thông tin</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Sự kiện click mở dropdown ngân hàng
+        $('.bank-link').click(function (event) {
+            event.preventDefault();
+
+            // Ẩn tất cả dropdown và form khác
+            $('.dropdown, .account-info').hide();
+
+            // Lấy loại tài khoản từ data attribute
+            const bankType = $(this).data('bank-type');
+            $(`#bank-dropdown-${bankType}`).toggle(); // Hiện dropdown phù hợp
+        });
+
+        // Khi chọn ngân hàng từ dropdown
+        $('.dropdown-item').click(function () {
+            const selectedBank = $(this).data('bank');
+            const bankType = $(this).closest('.dropdown').attr('id').split('-')[2];
+
+            // Gán tên ngân hàng vào input ẩn
+            $(`#bank-name-${bankType}`).val(selectedBank);
+
+            // Ẩn dropdown và hiện form tương ứng
+            $(`#bank-dropdown-${bankType}`).hide();
+            $(`#form-${bankType}`).show();
+        });
+
+        // Ẩn dropdown khi click bên ngoài
+        $(document).click(function (event) {
+            if (!$(event.target).closest('.bank-link, .dropdown').length) {
+                $('.dropdown').hide();
+            }
+        });
+    });
+</script>

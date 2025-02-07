@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "FunctionChat";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div id="Chat-with-Customer">
+    <div class="container">
+        <h1>Nhắn tin</h1>
+        <div class="Chat-main">
+            <!-- Phần danh sách khách hàng -->
+            <div class="Chat-main-left">
+                <div class="Chat-box">
+                    <div class="account-customer">
+                        <img src="HinhAnh/client-1.jpg" alt="">
+                        <div class="customer-info">
+                            <div class="name-customer">Tran1</div>
+                            <div class="new-chat">Xin chào</div>
+                        </div>
+                    </div>
+                    <div class="account-customer">
+                        <img src="HinhAnh/client-2.jpg" alt="">
+                        <div class="customer-info">
+                            <div class="name-customer">Tran2</div>
+                            <div class="new-chat">Cần hỗ trợ!</div>
+                        </div>
+                    </div>
+                    <!-- Thêm nhiều khách hàng khác -->
+                </div>
+            </div>
+            <!-- Phần nội dung chat -->
+            <div class="Chat-main-center">
+                <div class="chat-header">
+                    <h2>Tran1</h2>
+                </div>
+                <div class="chat-body">
+                    <div class="chat-message received">Xin chào!</div>
+                    <div class="chat-message sent">Chào bạn, tôi có thể giúp gì cho bạn?</div>
+                </div>
+                <div class="chat-footer">
+                    <input type="text" placeholder="Nhập tin nhắn...">
+                    <button>Gửi</button>
+                </div>
+            </div>
+            <!-- Phần thông tin thêm (tùy chọn) -->
+            <div class="Chat-main-right">
+                <h3>Thông tin chi tiết</h3>
+                <p>Khách hàng: Tran1</p>
+                <p>Email: tran1@example.com</p>
+                <p>Số điện thoại: 0123456789</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.3/signalr.min.js"></script>

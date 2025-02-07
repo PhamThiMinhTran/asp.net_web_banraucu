@@ -1,0 +1,298 @@
+﻿@model Web_banThucPhamSach.Models.UserOrderViewModel
+@{
+    ViewData["Title"] = "AllOrderUser";
+    Layout = "~/Views/Shared/_Profile.cshtml";
+}
+<style>
+    .hidden {
+        display: none !important;
+    }
+
+    #reviewModal {
+        position: absolute;
+        padding: 20px;
+        right: 0;
+        background-color: white;
+        border: 1px solid #ccc;
+    }
+</style>
+<div id="orders">
+    <h2>Đơn hàng</h2>
+    <div id="buy-product">
+        <div id="buy-product">
+            <a href="#" onclick="showOrderContent('#Allproduct')">Tất cả</a>
+            <a href="#" onclick="showOrderContent('#ChuaDuyet')">Chưa được duyệt</a>
+            <a href="#" onclick="showOrderContent('#History_product')">Đang giao</a>
+            <a href="#" onclick="showOrderContent('#finish')">Hoàn thành</a>
+        </div>
+    </div>
+    <div class="show_orders_products">
+        <div id="Allproduct">
+            @if (Model.Orders == null || !Model.Orders.Any())
+            {
+                <p>Không có đơn hàng nào.</p>
+            }
+            else
+            {
+                @foreach (var order in Model.Orders)
+                {
+                    <div class="box_product_user">
+                        <div>
+                            <h4>Đơn hàng: @order.Id</h4>
+
+                            @if (order.OrderDetails.Count > 0)
+                            {
+                                var firstDetail = order.OrderDetails.FirstOrDefault();
+                                if (firstDetail?.Product != null && !string.IsNullOrEmpty(firstDetail.Product.Image))
+                                {
+                                    var imagePaths = firstDetail.Product.Image.Split(',');
+                                    <img src="@Url.Content(imagePaths[0])" alt="@firstDetail.Product.Title" />
+                                }
+                            }
+                        </div>
+                        <div>
+                            <p>Tên khách hàng: @(Model.User?.Fullname ?? Model.User.UserName)</p>
+                            <p>Trạng thái: @(order.Status == 0 ? "Chưa duyệt" : order.Status == 1 ? "Đang xử lý" : "Hoàn thành")</p>
+                            <p>Ngày đặt hàng: @(order.OrderDate.HasValue ? order.OrderDate.Value.ToString("dd/MM/yyyy") : "Chưa xác định")</p>
+
+                        </div>
+                        <div>
+                            <h5>Chi tiết đơn hàng:</h5>
+                            @foreach (var detail in order.OrderDetails)
+                            {
+                                <p>Sản phẩm: @detail.Product?.Title</p>
+                                <p>Số lượng: @detail.NumberProducts</p>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div id="ChuaDuyet" class="hidden">
+            @if (Model.Orders == null || !Model.Orders.Any())
+            {
+                <p>Không có đơn hàng nào.</p>
+            }
+            else
+            {
+                @foreach (var order in Model.Orders)
+                {
+                    if (order.Status == 0) // Hiển thị đơn hàng đang xử lý
+                    {
+                        <div class="box_product_user">
+                            <div>
+                                <h4>Đơn hàng: @order.Id</h4>
+
+                                @if (order.OrderDetails.Count > 0)
+                                {
+                                    var firstDetail = order.OrderDetails.FirstOrDefault();
+                                    if (firstDetail?.Product != null && !string.IsNullOrEmpty(firstDetail.Product.Image))
+                                    {
+                                        var imagePaths = firstDetail.Product.Image.Split(',');
+                                        <img src="@Url.Content(imagePaths[0])" alt="@firstDetail.Product.Title" />
+                                    }
+                                }
+                            </div>
+                            <div>
+                                <p>Tên khách hàng: @(Model.User?.Fullname ?? Model.User.UserName)</p>
+                                <p>Trạng thái: Đang xử lý</p>
+                                <p>Ngày đặt hàng: @(order.OrderDate.HasValue ? order.OrderDate.Value.ToString("dd/MM/yyyy") : "Chưa xác định")</p>
+
+                            </div>
+                            <div>
+                                <h5>Chi tiết đơn hàng:</h5>
+                                @foreach (var detail in order.OrderDetails)
+                                {
+                                    <p>Sản phẩm: @detail.Product?.Title</p>
+                                    <p>Số lượng: @detail.NumberProducts</p>
+                                }
+                            </div>
+                            <div>
+                                <button data-order-id="@order.Id" onclick="deleteOrder('@order.Id')" style="color: black;">Hủy</button>
+                            </div>
+                        </div>
+                    }
+                }}
+        </div>
+        <div id="History_product" class="hidden">
+            @foreach (var order in Model.Orders)
+            {
+                if (order.Status == 1) // Hiển thị đơn hàng đang xử lý
+                {
+                    <div class="box_product_user">
+                        <div>
+                            <h4>Đơn hàng: @order.Id</h4>
+
+                            @if (order.OrderDetails.Count > 0)
+                            {
+                                var firstDetail = order.OrderDetails.FirstOrDefault();
+                                if (firstDetail?.Product != null && !string.IsNullOrEmpty(firstDetail.Product.Image))
+                                {
+                                    var imagePaths = firstDetail.Product.Image.Split(',');
+                                    <img src="@Url.Content(imagePaths[0])" alt="@firstDetail.Product.Title" />
+                                }
+                            }
+                        </div>
+                        <div>
+                            <p>Tên khách hàng: @(Model.User?.Fullname ?? Model.User.UserName)</p>
+                            <p>Trạng thái: Đang xử lý</p>
+                            <p>Ngày đặt hàng: @(order.OrderDate.HasValue ? order.OrderDate.Value.ToString("dd/MM/yyyy") : "Chưa xác định")</p>
+
+                        </div>
+                        <div>
+                            <h5>Chi tiết đơn hàng:</h5>
+                            @foreach (var detail in order.OrderDetails)
+                            {
+                                <p>Sản phẩm: @detail.Product?.Title</p>
+                                <p>Số lượng: @detail.NumberProducts</p>
+                            }
+                        </div>
+                        <div>
+                            <button class="confirm-receipt" data-order-id="@order.Id" onclick="confirmReceipt('@order.Id')" @(order.Status == 2 ? "disabled" : "") style="color: black;">
+                                @(order.Status == 2 ? "Đã nhận" : "Nhận hàng")
+                            </button>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div id="finish" class="hidden">
+            @if (Model.Orders == null || !Model.Orders.Any())
+            {
+                <p>Không có đơn hàng nào.</p>
+            }
+            else
+            {
+                @foreach (var order in Model.Orders)
+                {
+                    if (order.Status == 2) // Hiển thị đơn hàng đã hoàn thành
+                    {
+                        <div class="box_product_user">
+                            <div>
+                                <h4>Đơn hàng: @order.Id</h4>
+
+                                @if (order.OrderDetails.Count > 0)
+                                {
+                                    var firstDetail = order.OrderDetails.FirstOrDefault();
+                                    if (firstDetail?.Product != null && !string.IsNullOrEmpty(firstDetail.Product.Image))
+                                    {
+                                        var imagePaths = firstDetail.Product.Image.Split(',');
+                                        <img src="@Url.Content(imagePaths[0])" alt="@firstDetail.Product.Title" />
+                                    }
+                                }
+                            </div>
+                            <div>
+                                <p>Tên khách hàng: @(Model.User?.Fullname ?? Model.User.UserName)</p>
+                                <p>Trạng thái: Đã hoàn thành</p>
+                                <p>Ngày đặt hàng: @(order.OrderDate.HasValue ? order.OrderDate.Value.ToString("dd/MM/yyyy") : "Chưa xác định")</p>
+
+                            </div>
+                            <div>
+                                <h5>Chi tiết đơn hàng:</h5>
+                                @foreach (var detail in order.OrderDetails)
+                                {
+                                    <p>Sản phẩm: @detail.Product?.Title</p>
+                                    <p>Số lượng: @detail.NumberProducts</p>
+                                    <div>
+                                        <button onclick="openReviewModal('@detail.ProductId')">Đánh giá</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div id="reviewModal" class="hidden">
+                            <h3>Đánh giá sản phẩm</h3>
+                            <textarea id="reviewComment" placeholder="Nhập đánh giá của bạn"></textarea>
+                            <button onclick="submitReview()">Gửi</button>
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>
+<script>
+    function showOrderContent(contentId) {
+        // Ẩn tất cả các phần
+        document.querySelectorAll('.show_orders_products > div').forEach(function (content) {
+            content.classList.add('hidden');
+        });
+        // Hiển thị phần được chọn
+        document.querySelector(contentId).classList.remove('hidden');
+    }
+    function openReviewModal(productId) {
+        // Mở khung đánh giá
+        document.getElementById('reviewModal').classList.remove('hidden');
+        document.getElementById('reviewModal').dataset.productId = productId;
+    }
+    //Khách hàng hủy đơn
+    function deleteOrder(orderId) {
+        if (confirm("Bạn có chắc chắn muốn hủy đơn hàng này không?")) {
+            $.ajax({
+                url: '/Function/DeleteOrder',  // Đường dẫn tới phương thức xóa
+                type: 'POST',
+                data: { orderId: orderId },
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message);
+                        location.reload();  // Tải lại trang để cập nhật giao diện
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra. Vui lòng thử lại.");
+                }
+            });
+        }
+    }
+    function confirmReceipt(orderId) {
+        if (confirm("Bạn có chắc chắn muốn xác nhận đã nhận hàng không?")) {
+            $.ajax({
+                url: '/Function/ConfirmReceipt',  // Đường dẫn tới phương thức xác nhận
+                type: 'POST',
+                data: { orderId: orderId },
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message);
+                        location.reload();  // Tải lại trang để cập nhật giao diện
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra. Vui lòng thử lại.");
+                }
+            });
+        }
+    }
+
+    function submitReview() {
+        // Lấy dữ liệu từ form
+        const comment = document.getElementById('reviewComment').value;
+        const productId = document.getElementById('reviewModal').dataset.productId;
+
+        if (!comment) {
+            alert("Vui lòng nhập đủ thông tin.");
+            return;
+        }
+
+        // Gửi đánh giá qua AJAX
+        $.ajax({
+            url: '/Function/AddReview',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                ProductId: productId,
+                Comment: comment,
+            }),
+            success: function (response) {
+                alert(response.message);
+                document.getElementById('reviewModal').classList.add('hidden');
+            },
+            error: function () {
+                alert("Có lỗi xảy ra. Vui lòng thử lại.");
+            }
+        });
+    }
+
+</script>
